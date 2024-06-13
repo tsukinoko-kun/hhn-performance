@@ -58,11 +58,11 @@ export function Benchmark() {
 
     return (
         <div className="flex w-full flex-col">
-            <div className="flex w-full flex-row">
+            <div className="flex w-full flex-col-reverse md:flex-row">
                 <SyntaxHighlighter language="java" style={prismStyle} showLineNumbers>
                     {codeBlock}
                 </SyntaxHighlighter>
-                <label className="pt-20">
+                <label className="md:pt-20">
                     {"Delay value: "}
                     <input
                         type="range"
