@@ -1,0 +1,11 @@
+---
+import { Benchmark } from "../components/react/Benchmark";
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout>
+    <h2>Flame Graph</h2>
+    <p>Ein Flame Graph ist ein visuelles Werkzeug, das verwendet wird, um die Leistung eines Programms zu analysieren, insbesondere um zu sehen, welche Teile des Codes die meiste Zeit in Anspruch nehmen.</p>
+    <p>Ein Flame Graph besteht aus einer Reihe von farbigen Rechtecken, die in Schichten übereinander gestapelt sind. Jedes Rechteck repräsentiert eine Funktion oder Methode, die in deinem Programm aufgerufen wird. Die Breite eines Rechtecks zeigt an, wie viel Zeit diese Funktion im Vergleich zu anderen Funktionen in Anspruch nimmt. Je breiter das Rechteck, desto mehr Zeit wird in dieser Funktion verbracht.</p>
+    <Benchmark client:only="react" />
+</Layout>
