@@ -6,7 +6,7 @@ import prismStyle from "react-syntax-highlighter/dist/esm/styles/prism/darcula";
 const padding = 32;
 
 export function Benchmark() {
-    const [delay, setDelay] = useState(5);
+    const [delay, setDelay] = useState(500);
     const [screenWidth, setScreenWidth] = useState(window.innerWidth - padding);
     useEffect(() => {
         function onWindowResize() {
@@ -19,39 +19,127 @@ export function Benchmark() {
         };
     });
 
-    const codeBlock = `public class HelloWorld {
+    const codeBlock = `public class Main {
     private static void verySlowFunction() {
-        Thread.sleep(${delay});
+        long target = System.currentTimeMillis() + ${delay};
+        while (target > System.currentTimeMillis()) {
+        }
     }
 
     public static void main(String[] args) {
         System.out.println("start");
-        HelloWorld.verySlowFunction();
+        Main.verySlowFunction();
         System.out.println("end");
     }
 }`;
 
     const data = {
-        name: "HelloWorld::main",
-        value: 2 + delay,
+        name: "all",
+        value: 112 + delay,
         children: [
             {
-                name: "System::out::println",
-                value: 1,
-            },
-            {
-                name: "HelloWorld::verySlowFunction",
+                name: "Main.main",
                 value: delay,
                 children: [
                     {
-                        name: "Thread::sleep",
+                        name: "Main.verySlowFunction()",
                         value: delay,
                     },
                 ],
             },
             {
-                name: "System::out::println",
-                value: 1,
+                name: "jdk.internal.agent.Agent.startLocalManagementAgent()",
+                value: 72,
+                children: [
+                    {
+                        name: "sun.management.jmxremote.ConnectionBootstrap.startLocalConnectionServer()",
+                        value: 72,
+                        children: [
+                            {
+                                name: "java.lang.management.ManagementFactory.getPlatformMBeanServer()",
+                                value: 40,
+                                children: [
+                                    {
+                                        name: "java.util.stream.ReferencePipeline.forEach(Consumer)",
+                                        value: 32,
+                                        children: [
+                                            {
+                                                name: "java.lang.management.ManagementFactory$$Lambda.0x000000f001083bc8.apply(Object)",
+                                                value: 16,
+                                                children: [
+                                                    {
+                                                        name: "java.lang.management.ManagementFactory.lambda$getPlatformMBeanServer$0(PlatformMBeanProvider$PlatformComponent)",
+                                                        value: 16,
+                                                        children: [
+                                                            {
+                                                                name: "jdk.management.jfr.internal.FlightRecorderMXBeanProvider$SingleMBeanComponent.nameToMBeanMap()",
+                                                                value: 8,
+                                                            },
+                                                            {
+                                                                name: "java.lang.management.DefaultPlatformMBeanProvider$5.nameToMBeanMap()",
+                                                                value: 8,
+                                                            },
+                                                        ],
+                                                    },
+                                                ],
+                                            },
+                                            {
+                                                name: "java.util.stream.ReferencePipeline$Head.forEach(Consumer)",
+                                                value: 16,
+                                                children: [
+                                                    {
+                                                        name: "com.sun.jmx.mbeanserver.JmxMBeanServer.registerMBean(Object, ObjectName)",
+                                                        value: 8,
+                                                    },
+                                                    {
+                                                        name: "javax.management.StandardMBean.<init>(Object, Class, boolean)",
+                                                        value: 8,
+                                                    },
+                                                ],
+                                            },
+                                        ],
+                                    },
+                                    {
+                                        name: "javax.management.MBeanServerFactory.createMBeanServer()",
+                                        value: 8,
+                                    },
+                                ],
+                            },
+                            {
+                                name: "javax.management.remote.rmi.RMIConnectorServer.start()",
+                                value: 32,
+                            },
+                        ],
+                    },
+                ],
+            },
+            {
+                name: "java.lang.Thread.run()",
+                value: 32,
+                children: [
+                    {
+                        name: "java.lang.Thread.runWith(Object, Runnable)",
+                        value: 32,
+                        children: [
+                            {
+                                name: "java.util.concurrent.ThreadPoolExecutor$Worker.run()",
+                                value: 16,
+                            },
+                            {
+                                name: "com.sun.jmx.remote.internal.ServerCommunicatorAdmin$Timeout.run()",
+                                value: 8,
+                            },
+                            {
+                                name: "jdk.jfr.internal.ShutdownHook.run()",
+                                value: 8,
+                            },
+                        ],
+                    },
+                ],
+            },
+            {
+                name: "jdk.internal.vm.VMSupport.serializeAgentPropertiesToByteArray()",
+                value: 8,
             },
         ],
     };
@@ -62,12 +150,13 @@ export function Benchmark() {
                 <SyntaxHighlighter language="java" style={prismStyle} showLineNumbers>
                     {codeBlock}
                 </SyntaxHighlighter>
-                <label className="md:pt-20">
+                <label className="md:pt-16">
                     {"Delay value: "}
                     <input
                         type="range"
-                        min={4}
-                        max={32}
+                        min={1000}
+                        max={2950}
+                        step={50}
                         value={delay}
                         onChange={(ev) => {
                             setDelay(Number(ev.target.value));
