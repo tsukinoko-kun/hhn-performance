@@ -1,7 +1,7 @@
-import { type MouseEvent, type MouseEventHandler, useEffect, useState } from "react";
+import { type MouseEvent, useEffect, useState } from "react";
 import { FlameGraph } from "react-flame-graph";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import prismStyle from "react-syntax-highlighter/dist/esm/styles/prism/darcula";
+import { catppuccin as prismStyle } from "./PrismCatppuccinTheme";
 
 const padding = 32;
 
@@ -31,6 +31,7 @@ export function Benchmark() {
     private static void verySlowFunction() {
         long target = System.currentTimeMillis() + ${delay};
         while (target > System.currentTimeMillis()) {
+            // do nothing, wait for time to become >= target
         }
     }
 
@@ -155,7 +156,7 @@ export function Benchmark() {
     return (
         <div className="flex w-full flex-col">
             <div className="flex w-full flex-col-reverse md:flex-row">
-                <SyntaxHighlighter language="java" style={prismStyle} showLineNumbers>
+                <SyntaxHighlighter language="java" style={prismStyle()} showLineNumbers>
                     {codeBlock}
                 </SyntaxHighlighter>
                 <label className="md:pt-16">
