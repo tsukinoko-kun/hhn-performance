@@ -1,13 +1,21 @@
-import { useEffect, useState } from "react";
+import { type MouseEvent, type MouseEventHandler, useEffect, useState } from "react";
 import { FlameGraph } from "react-flame-graph";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import prismStyle from "react-syntax-highlighter/dist/esm/styles/prism/darcula";
 
 const padding = 32;
 
+type ItemData = {
+    name: string;
+    value: number;
+    children?: Array<ItemData>;
+};
+
 export function Benchmark() {
     const [delay, setDelay] = useState(500);
     const [screenWidth, setScreenWidth] = useState(window.innerWidth - padding);
+    const [tooltip, setTooltip] = useState<{ content: string; x: number; y: number } | null>(null);
+
     useEffect(() => {
         function onWindowResize() {
             setScreenWidth(window.innerWidth - padding);
@@ -33,7 +41,7 @@ export function Benchmark() {
     }
 }`;
 
-    const data = {
+    const data: ItemData = {
         name: "all",
         value: 112 + delay,
         children: [
@@ -154,8 +162,8 @@ export function Benchmark() {
                     {"Delay value: "}
                     <input
                         type="range"
-                        min={1000}
-                        max={2950}
+                        min={100}
+                        max={950}
                         step={50}
                         value={delay}
                         onChange={(ev) => {
@@ -168,10 +176,34 @@ export function Benchmark() {
                 data={data}
                 height={200}
                 width={screenWidth}
-                onChange={(node: any) => {
-                    console.log(`"${node.name}" focused`);
+                disableDefaultTooltips
+                onMouseOver={(event: MouseEvent, itemData: ItemData) => {
+                    console.log(event);
+                    setTooltip({
+                        content: `${itemData.name}\nTime: ${itemData.value}ms`,
+                        x: event.clientX,
+                        y: event.clientY,
+                    });
+                }}
+                onMouseOut={(_event: MouseEvent, _itemData: ItemData) => {
+                    setTooltip(null);
+                }}
+                onMouseMove={(event: MouseEvent, itemData: ItemData) => {
+                    setTooltip({
+                        content: `${itemData.name}\nTime: ${itemData.value}ms`,
+                        x: event.clientX,
+                        y: event.clientY,
+                    });
                 }}
             />
+            {tooltip ? (
+                <span
+                    className="pointer-events-none fixed translate-x-[-50%] whitespace-pre bg-ctp-crust px-2"
+                    style={{ top: 16 + tooltip.y, left: tooltip.x }}
+                >
+                    {tooltip.content}
+                </span>
+            ) : null}
         </div>
     );
 }
