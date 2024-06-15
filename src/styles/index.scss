@@ -17,6 +17,18 @@ main {
     font-size: 1.5rem;
     line-height: 2rem;
     font-weight: 700;
+    border-bottom: 1px solid currentColor;
+    margin: {
+      top: 2rem;
+      bottom: 1rem;
+    }
+  }
+
+
+  h3 {
+    font-size: 1.25rem;
+    line-height: 1.5rem;
+    font-weight: 500;
     margin: {
       top: 2rem;
       bottom: 1rem;
