@@ -37,7 +37,7 @@
                 "noYodaExpression": "info",
                 "useSortedClasses": "error"
             },
-            "a11y": { "noSvgWithoutTitle": "off" },
+            "a11y": { "noSvgWithoutTitle": "off", "useKeyWithClickEvents": "off" },
             "security": { "all": true }
         }
     },
