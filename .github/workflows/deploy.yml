@@ -36,8 +36,8 @@ jobs:
               uses: actions/configure-pages@v5
             - name: Install Dependencies
               run: pnpm install
-            - name: Biome CI
-              run: pnpm exec biome ci
+            - name: Prettier check
+              run: pnpm exec prettier --check .
             - name: Build
               run: pnpm run build
             - name: Upload artifact
