@@ -1,6 +1,6 @@
 ---
 import "../styles/index.scss"
-import { pub } from "../script/config"
+import { pub, unpub } from "../script/config"
 
 interface Props {
     title?: string
@@ -22,7 +22,16 @@ const title = Astro.props.title ? `${prefix} - ${Astro.props.title}` : prefix
         <title>{title}</title>
     </head>
     <body>
-        <main class="p-4">
+        {
+            unpub(Astro.url.pathname) === "" ? null : (
+                <nav>
+                    <a href={pub("/")} class="block px-2 py-4 text-xl text-ctp-mauve underline">
+                        Zurück zur Hauptseite
+                    </a>
+                </nav>
+            )
+        }
+        <main class="mx-auto my-24 max-w-[1040px] px-2">
             <h1>{Astro.props.title || prefix}</h1>
             <slot />
         </main>

@@ -1,0 +1,112 @@
+---
+import Layout from "../layouts/Layout.astro"
+---
+
+<Layout title="Buildtime und Startup">
+    <h2>Was ist Build-, Startup- und Laufzeit?</h2>
+    <p>
+        Verschiedene Programmiersprachen haben unterschiedliche Konzepte, wie der Code des Programmierers als Programm
+        auf dem Endgerät ausgeführt wird. Diese Unterschiede resultieren in unterschiedlichen Arten von Build- und
+        Startupoptimierungen.
+    </p>
+    <div class="w-full overflow-x-auto">
+        <table class="min-w-[64rem] border-collapse border border-ctp-overlay0">
+            <tbody>
+                <tr>
+                    <td></td>
+                    <th>Build</th>
+                    <th>Startup</th>
+                    <th>Runtime</th>
+                </tr>
+                <tr>
+                    <th>C (native)</th>
+                    <td>
+                        <p>
+                            Programmierer kompiliert Quellcode zu Ausführbarer Datei, die spezifisch für
+                            Prozessorarchitektur und Betriebssystem ist.
+                        </p>
+                        <p><code>gcc helloworld.c -o helloworld</code></p>
+                    </td>
+                    <td> Keine Laufzeitumgebung vorhanden. </td>
+                    <td>
+                        <p>Das eigentliche Programm wird direkt vom Endnutzer ausgeführt.</p>
+                        <p><code>./helloworld</code></p>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Java (JIT)</th>
+                    <td>
+                        <p>
+                            Programmierer kompiliert Quellcode zu Bytecode, der unabhängig von Prozessorarchitektur und
+                            Betriebssystem ist.
+                        </p>
+                        <p><code>javac HelloWorld.java</code> erstellt HelloWorld.class</p>
+                        <p><code>jar cvfe HelloWorld.jar HelloWorld HelloWorld.class</code> erstellt HelloWorld.jar</p>
+                    </td>
+                    <td>
+                        <p>
+                            Endnutzer startet Java Laufzeitumgebung, die eigenen Code ausführt und sich auf die
+                            Ausführung des eigentlich Programms vorbereitet.
+                        </p>
+                        <p><code>java -jar HelloWorld.jar</code></p>
+                    </td>
+                    <td>
+                        <p>
+                            Das eigentliche Programm wird von der Java Laufzeitumgebung geladen, compiliert und
+                            ausgeführt. Diese Art von Kompilierung wird Just-In-Time (JIT) genannt, da die Programmteile
+                            nach und nach kompiliert werden, wie sie benötigt (aufgerufen) werden.
+                        </p>
+                        <p><code>java -jar HelloWorld.jar</code></p>
+                    </td>
+                </tr>
+                <tr>
+                    <th>JavaScript (interpretiert)</th>
+                    <td>
+                        <p>Lesbarer Quellcode wird zum Endnutzer ausgeliefert, keine Kompilierung notwendig.</p>
+                    </td>
+                    <td>
+                        Endnutzer startet Laufzeitumgebung (z.B. Browser), die sich auf die Ausführung des eigentlichen
+                        Programms vorbereitet.
+                    </td>
+                    <td
+                        >Die Laufzeit lädt den Quellcode und interpretiert ihn Zeile für Zeile. Wärend das Programm
+                        mittels Interpreter ausgeführt wird, wird derselbe Code kompiliert, um bei der nächsten
+                        Ausführung schneller zu sein (das machen nicht alle interpretierten Sprachen).</td
+                    >
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h2>Build-time-Optimierungen</h2>
+    <p>
+        Abhängigkeiten (Bibliotheken, Frameworks, etc.) nicht jedes mal neu kompilieren, wenn sich nur der eigene Code
+        ändert. Jede Abhängigkeit einzeln kompilieren und zur Laufzeit verknüpfen.
+    </p>
+    <p><b>Incremental builds</b> - nur die Teile neu kompilieren, die sich geändert haben.</p>
+    <p>
+        <a href="https://docs.gradle.org/current/userguide/incremental_build.html">Gradle</a>,<a
+            href="https://bazel.build/advanced/performance/build-performance-breakdown">Bazel</a
+        >, ...
+    </p>
+    <p><b>Dynamic Linking mit kompilierten Sprachen (C, C++, Rust, ...)</b></p>
+    <iframe
+        width="560"
+        height="315"
+        src="https://www.youtube-nocookie.com/embed/pLy69V2F_8M?si=ZFkMsQYYBRjqrzYt"
+        title="YouTube video player"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allowfullscreen></iframe>
+
+    <h2>Startup-Optimierungen</h2>
+    <p>
+        Die Startzeit von Java oder C# kann reduziert werden, indem sie AOT (ahead-of-time) kompiliert werden. Nicht
+        alle JIT-Sprachen unterstützen AOT.
+    </p>
+    <p>
+        <a href="https://www.baeldung.com/ahead-of-time-compilation"
+            >https://www.baeldung.com/ahead-of-time-compilation</a
+        >
+    </p>
+</Layout>

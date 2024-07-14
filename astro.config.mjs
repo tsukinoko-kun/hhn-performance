@@ -7,6 +7,6 @@ import react from "@astrojs/react"
 export default defineConfig({
     site: "https://tsukinoko-kun.github.io",
     base: "/hhn-performance",
-    trailingSlash: "never",
+    trailingSlash: "ignore",
     integrations: [tailwind(), react({ include: ["**/react/*"], experimentalReactChildren: true })],
 })

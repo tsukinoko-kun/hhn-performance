@@ -40,4 +40,29 @@ main {
             bottom: 1rem;
         }
     }
+
+    a {
+        text-decoration: underline;
+        &:hover {
+            color: rgb(var(--ctp-mauve));
+        }
+    }
+
+    code:not(pre > code) {
+        font-family: "JetBrains Mono", "Fira Code", monospace;
+        font-size: 0.9em;
+        background-color: #11111b;
+        color: #cdd6f4;
+        padding: 0.2rem 0.4rem;
+        border-radius: 5px;
+    }
+
+    table.border.border-ctp-overlay0 {
+        th,
+        td {
+            border-width: 1px;
+            --tw-border-opacity: 1;
+            border-color: rgba(var(--ctp-overlay0), var(--tw-border-opacity));
+        }
+    }
 }

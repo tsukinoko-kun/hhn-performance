@@ -11,9 +11,13 @@ type ItemData = {
     children?: Array<ItemData>
 }
 
+function viewWidth() {
+    return Math.min(window.innerWidth, 1040)
+}
+
 export function Benchmark() {
     const [delay, setDelay] = useState(500)
-    const [screenWidth, setScreenWidth] = useState(window.innerWidth - padding)
+    const [screenWidth, setScreenWidth] = useState(viewWidth() - padding)
     const [tooltip, setTooltip] = useState<{
         content: string
         x: number
@@ -22,7 +26,7 @@ export function Benchmark() {
 
     useEffect(() => {
         function onWindowResize() {
-            setScreenWidth(window.innerWidth - padding)
+            setScreenWidth(viewWidth() - padding)
         }
         window.addEventListener("resize", onWindowResize)
 

@@ -1,29 +1,13 @@
 ---
-import { Benchmark } from "../components/react/Benchmark"
 import Layout from "../layouts/Layout.astro"
 import { pub } from "../script/config"
 ---
 
-<Layout title="Analyse">
-    <h2>Profiler</h2>
-    <p>
-        Ein Profiler ist ein Werkzeug, das Software analysiert, um zu sehen, wie effizient sie läuft. Es misst, wie viel
-        Zeit und Ressourcen verschiedene Teile des Codes verbrauchen. Das hilft Entwicklern zu verstehen, welche Teile
-        des Programms verbessert werden müssen, um die Gesamtleistung zu steigern.
-    </p>
-    <h3>IntelliJ</h3>
-    <video src={pub("/video/intellij-profiler.webm")} muted controls class="mx-auto w-full max-w-3xl aspect-auto"
-    ></video>
-    <h2>Flame Graph</h2>
-    <p>
-        Ein Flame Graph ist ein visuelles Werkzeug, das verwendet wird, um die Leistung eines Programms zu analysieren,
-        insbesondere um zu sehen, welche Teile des Codes die meiste Zeit in Anspruch nehmen.
-    </p>
-    <p>
-        Ein Flame Graph besteht aus einer Reihe von farbigen Rechtecken, die in Schichten übereinander gestapelt sind.
-        Jedes Rechteck repräsentiert eine Funktion oder Methode, die in deinem Programm aufgerufen wird. Die Breite
-        eines Rechtecks zeigt an, wie viel Zeit diese Funktion im Vergleich zu anderen Funktionen in Anspruch nimmt. Je
-        breiter das Rechteck, desto mehr Zeit wird in dieser Funktion verbracht.
-    </p>
-    <Benchmark client:visible client:only="react" />
+<Layout title="Übersicht">
+    <h2>Wann ist die App langsam?</h2>
+    <ul class="list-disc pl-4">
+        <li><a class="p-2 text-lg" href={pub("build_and_startup")}>Build</a></li>
+        <li><a class="p-2 text-lg" href={pub("./build_and_startup")}>Startup</a></li>
+        <li><a class="p-2 text-lg" href={pub("runtime")}>Runtime</a></li>
+    </ul>
 </Layout>
