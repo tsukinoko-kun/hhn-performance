@@ -1,19 +1,19 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from "react"
 
-const darkQuery = window.matchMedia?.("(prefers-color-scheme: dark)");
+const darkQuery = window.matchMedia?.("(prefers-color-scheme: dark)")
 
 export function catppuccin() {
-    const [style, setStyle] = useState(darkQuery?.matches ? mocha : latte);
+    const [style, setStyle] = useState(darkQuery?.matches ? mocha : latte)
     useEffect(() => {
         function onColorSchemeChange(event: MediaQueryListEvent) {
-            setStyle(event.matches ? mocha : latte);
+            setStyle(event.matches ? mocha : latte)
         }
-        darkQuery.addEventListener("change", onColorSchemeChange);
+        darkQuery.addEventListener("change", onColorSchemeChange)
         return () => {
-            darkQuery.removeEventListener("change", onColorSchemeChange);
-        };
-    });
-    return style;
+            darkQuery.removeEventListener("change", onColorSchemeChange)
+        }
+    })
+    return style
 }
 
 export const mocha = {
@@ -172,7 +172,7 @@ export const mocha = {
     italic: {
         fontStyle: "italic",
     },
-};
+} as const
 
 export const latte = {
     'code[class*="language-"]': {
@@ -329,4 +329,4 @@ export const latte = {
     italic: {
         fontStyle: "italic",
     },
-};
+} as const

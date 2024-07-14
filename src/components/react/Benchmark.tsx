@@ -1,31 +1,35 @@
-import { type MouseEvent, useEffect, useState } from "react";
-import { FlameGraph } from "react-flame-graph";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { catppuccin as prismStyle } from "./PrismCatppuccinTheme";
+import { type MouseEvent, useEffect, useState } from "react"
+import { FlameGraph } from "react-flame-graph"
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter"
+import { catppuccin as prismStyle } from "./PrismCatppuccinTheme"
 
-const padding = 32;
+const padding = 32
 
 type ItemData = {
-    name: string;
-    value: number;
-    children?: Array<ItemData>;
-};
+    name: string
+    value: number
+    children?: Array<ItemData>
+}
 
 export function Benchmark() {
-    const [delay, setDelay] = useState(500);
-    const [screenWidth, setScreenWidth] = useState(window.innerWidth - padding);
-    const [tooltip, setTooltip] = useState<{ content: string; x: number; y: number } | null>(null);
+    const [delay, setDelay] = useState(500)
+    const [screenWidth, setScreenWidth] = useState(window.innerWidth - padding)
+    const [tooltip, setTooltip] = useState<{
+        content: string
+        x: number
+        y: number
+    } | null>(null)
 
     useEffect(() => {
         function onWindowResize() {
-            setScreenWidth(window.innerWidth - padding);
+            setScreenWidth(window.innerWidth - padding)
         }
-        window.addEventListener("resize", onWindowResize);
+        window.addEventListener("resize", onWindowResize)
 
         return () => {
-            window.removeEventListener("resize", onWindowResize);
-        };
-    });
+            window.removeEventListener("resize", onWindowResize)
+        }
+    })
 
     const codeBlock = `public class Main {
     private static void verySlowFunction() {
@@ -40,7 +44,7 @@ export function Benchmark() {
         Main.verySlowFunction();
         System.out.println("end");
     }
-}`;
+}`
 
     const data: ItemData = {
         name: "all",
@@ -151,7 +155,7 @@ export function Benchmark() {
                 value: 8,
             },
         ],
-    };
+    }
 
     return (
         <div className="flex w-full flex-col">
@@ -168,7 +172,7 @@ export function Benchmark() {
                         step={50}
                         value={delay}
                         onChange={(ev) => {
-                            setDelay(Number(ev.target.value));
+                            setDelay(Number(ev.target.value))
                         }}
                     />
                 </label>
@@ -179,22 +183,22 @@ export function Benchmark() {
                 width={screenWidth}
                 disableDefaultTooltips
                 onMouseOver={(event: MouseEvent, itemData: ItemData) => {
-                    console.log(event);
+                    console.log(event)
                     setTooltip({
                         content: `${itemData.name}\nTime: ${itemData.value}ms`,
                         x: event.clientX,
                         y: event.clientY,
-                    });
+                    })
                 }}
                 onMouseOut={(_event: MouseEvent, _itemData: ItemData) => {
-                    setTooltip(null);
+                    setTooltip(null)
                 }}
                 onMouseMove={(event: MouseEvent, itemData: ItemData) => {
                     setTooltip({
                         content: `${itemData.name}\nTime: ${itemData.value}ms`,
                         x: event.clientX,
                         y: event.clientY,
-                    });
+                    })
                 }}
             />
             {tooltip ? (
@@ -206,5 +210,5 @@ export function Benchmark() {
                 </span>
             ) : null}
         </div>
-    );
+    )
 }

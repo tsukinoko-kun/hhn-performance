@@ -1,30 +1,30 @@
 ---
-import "../styles/index.scss";
-import { pub } from "../script/config";
+import "../styles/index.scss"
+import { pub } from "../script/config"
 
 interface Props {
-    title?: string;
+    title?: string
 }
 
-const prefix = "Performance";
+const prefix = "Performance"
 
-const title = Astro.props.title ? `${prefix} - ${Astro.props.title}` : prefix;
+const title = Astro.props.title ? `${prefix} - ${Astro.props.title}` : prefix
 ---
 
 <!doctype html>
 <html lang="de" class="bg-ctp-base text-ctp-text accent-ctp-mauve dark:ctp-mocha">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="description" content="HHN Vorlesung Performance-Optimierung" />
-		<meta name="viewport" content="width=device-width" />
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="description" content="HHN Vorlesung Performance-Optimierung" />
+        <meta name="viewport" content="width=device-width" />
         <link rel="icon" type="image/svg+xml" href={pub("/favicon.svg")} />
-		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
-	</head>
-	<body>
+        <meta name="generator" content={Astro.generator} />
+        <title>{title}</title>
+    </head>
+    <body>
         <main class="p-4">
             <h1>{Astro.props.title || prefix}</h1>
             <slot />
         </main>
-	</body>
+    </body>
 </html>
