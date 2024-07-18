@@ -6,8 +6,15 @@ import { pub } from "../script/config"
 <Layout title="Übersicht">
     <h2>Wann ist die App langsam?</h2>
     <ul class="list-disc pl-4">
-        <li><a class="p-2 text-lg" href={pub("build_and_startup")}>Build</a></li>
-        <li><a class="p-2 text-lg" href={pub("./build_and_startup")}>Startup</a></li>
-        <li><a class="p-2 text-lg" href={pub("runtime")}>Runtime</a></li>
+        <li>Build</li>
+        <li>Startup</li>
+        <li>Runtime</li>
     </ul>
+
+    <p>
+        Build- und Startup-Performance sind abhängig von der Programmiersprache, daher sind <a
+            href={pub("build_and_startup")}>hier</a
+        > nur ein paar grobe Informationen, für die, die es interessirt. Wir beschäftigen uns hauptsächlich mit der Optimierung
+        der <a href={pub("runtime")}>Runtime-Performance</a>.
+    </p>
 </Layout>
