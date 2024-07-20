@@ -1,9 +1,9 @@
 ---
-import { Code } from "./react/Code"
+import { Code as ReactCode } from "./react/Code"
 
 export type Props = {
     code: string
 }
 ---
 
-<Code client:only="react" code={Astro.props.code.trim()} />
+<ReactCode client:only="react" code={Astro.props.code.trim()} />
