@@ -1,0 +1,192 @@
+---
+import { range } from "../script/jsx-helper"
+import Code from "./Code.astro"
+---
+
+<p>
+    Wenn das Programm ein Array-Element an einem bestimmten Index anfragt, muss dieses aus dem Arbeitsspeicher in die
+    CPU geladen werden.
+</p>
+<Code
+    code={`
+public class Main {
+    public static void main(String[] args) {
+        int[] num = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+        for (int i = 0; i < num.length; i++) {
+            System.out.println(num[i]);
+        }
+    }
+}`}
+/>
+
+<p>
+    Kein Arbeitsspeicher kann mit der Geschwindigkeit einer modernen CPU mithalten. Bei einer Größe von mehreren
+    Gigabyte wäre das viel zu teuer. Die schnellste CPU bringt nichts, wenn sie auf den langsamen Arbeitsspeicher warten
+    muss.
+</p>
+<p>
+    Dieses Problem wird durch Caching gelöst. Die CPU verfügt über einen internen Speicher, der sehr klein ist (etwa
+    100&nbsp;KB pro physischem CPU-Core). Wenn das Programm ein Byte aus dem Arbeitsspeicher anfordert, wird nicht nur
+    dieses Byte, sondern auch die Bytes in der Nähe in den Cache geladen. Wenn wir also unsere Daten so anordnen, dass
+    sie im Arbeitsspeicher zusammenliegen, werden sie auch zusammen (und gleichzeitig) in den Cache geladen.
+</p>
+<p>
+    Einige Algorythmen basieren theoretisch auf Trees oder Graphs. Diese Datenstrukturen verteilen die Daten über den
+    Arbeitsspeicher, damit ist der CPU-Cache nicht effektiv nutzbar. In der Praxis werden kritische Algorithmen daher
+    mit Arrays implementiert.
+</p>
+
+<b>Legende</b>
+<ul>
+    <li><span class="text-ctp-subtext0">Grau</span>: Array-Element im Arbeitsspeicher</li>
+    <li><span class="text-ctp-blue">Blau</span>: Array-Element im CPU-Speicher</li>
+    <li>Pfeil: Loop Index</li>
+</ul>
+
+<p>Ohne Cache:</p>
+<div id="no-cache" class="flex flex-row gap-1">
+    {range(10).map((i) => <div class="memory" />)}
+</div>
+
+<p>Mit Cache:</p>
+<div id="cache" class="flex-rowg flex gap-1">
+    {range(10).map((i) => <div class="memory" />)}
+</div>
+
+<style lang="scss">
+    .memory {
+        display: block;
+        position: relative;
+        width: calc(var(--content-width) / 20);
+        height: calc(var(--content-width) / 20);
+        background-color: rgb(var(--ctp-subtext0));
+        margin-top: 2rem;
+
+        &:after {
+            position: absolute;
+            display: block;
+            content: "↓";
+            opacity: 0;
+            font-size: 1.5rem;
+            top: -2rem;
+            left: calc(50% - 1rem);
+        }
+    }
+
+    @keyframes uncached-memory-access {
+        0% {
+            transform: translateY(-4rem);
+            opacity: 0;
+        }
+        6% {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        8% {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        10% {
+            transform: translateY(-4rem);
+            opacity: 0;
+        }
+        100% {
+            transform: translateY(-4rem);
+            opacity: 0;
+        }
+    }
+
+    @keyframes uncached-memory-load {
+        0% {
+            background-color: rgb(var(--ctp-subtext0));
+        }
+        4% {
+            background-color: rgb(var(--ctp-subtext0));
+        }
+        6% {
+            background-color: rgb(var(--ctp-blue));
+        }
+        8% {
+            background-color: rgb(var(--ctp-blue));
+        }
+        10% {
+            background-color: rgb(var(--ctp-subtext0));
+        }
+        100% {
+            background-color: rgb(var(--ctp-subtext0));
+        }
+    }
+
+    #no-cache {
+        @for $i from 0 through 9 {
+            .memory:nth-child(#{$i + 1}) {
+                animation: uncached-memory-load 10s infinite;
+                animation-delay: $i * 0.5s;
+
+                &:after {
+                    animation: uncached-memory-access 10s infinite;
+                    animation-delay: $i * 0.5s;
+                }
+            }
+        }
+    }
+
+    @keyframes cached-memory-access {
+        0% {
+            transform: translateY(-4rem);
+            opacity: 0;
+        }
+        2% {
+            transform: translateY(-4rem);
+            opacity: 0;
+        }
+        6% {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        4% {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        8% {
+            transform: translateY(-4rem);
+            opacity: 0;
+        }
+        100% {
+            transform: translateY(-4rem);
+            opacity: 0;
+        }
+    }
+
+    @keyframes cached-memory-load {
+        0% {
+            background-color: rgb(var(--ctp-subtext0));
+        }
+        2% {
+            background-color: rgb(var(--ctp-blue));
+        }
+        30% {
+            background-color: rgb(var(--ctp-blue));
+        }
+        32% {
+            background-color: rgb(var(--ctp-subtext0));
+        }
+        100% {
+            background-color: rgb(var(--ctp-subtext0));
+        }
+    }
+
+    #cache {
+        @for $i from 0 through 9 {
+            .memory:nth-child(#{$i + 1}) {
+                animation: cached-memory-load 10s infinite;
+                animation-delay: 0.25s;
+
+                &:after {
+                    animation: cached-memory-access 10s infinite;
+                    animation-delay: $i * 0.25s;
+                }
+            }
+        }
+    }
+</style>

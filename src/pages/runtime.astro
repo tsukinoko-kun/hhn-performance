@@ -2,9 +2,10 @@
 import { Benchmark } from "../components/react/Benchmark"
 import Layout from "../layouts/Layout.astro"
 import { pub } from "../script/config"
+import LnCache from "../components/LnCache.astro"
 ---
 
-<Layout title="Analyse">
+<Layout title="Runtime">
     <h2>Profiler</h2>
     <p>
         Ein Profiler ist ein Werkzeug, das Software analysiert, um zu sehen, wie effizient sie läuft. Es misst, wie viel
@@ -26,4 +27,8 @@ import { pub } from "../script/config"
         breiter das Rechteck, desto mehr Zeit wird in dieser Funktion verbracht.
     </p>
     <Benchmark client:visible client:only="react" />
+
+    <h2>Contiguous Memory</h2>
+    <h3>Cache</h3>
+    <LnCache />
 </Layout>
