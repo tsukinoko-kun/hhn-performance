@@ -1,0 +1,176 @@
+---
+import { range } from "../script/jsx-helper"
+import Code from "./Code.astro"
+---
+
+<p>Der Arbeitsspeicher ist in mehrere Bereiche unterteilt. Für uns ist der Stack und der Heap am wichtigsten.</p>
+
+<h3>Stack</h3>
+<p>
+    Der Stack ist ein Speicherbereich, in dem Funktionen und lokale (primitive) Variablen gespeichert werden.<br />
+    Neuer Speicher kann ausschließlich am Ende des Stacks allokiert werden. Nur Speicher ganz am Ende des Stacks kann freigegeben
+    werden. Diese Einfachheit macht den Stack einerseits schnell, andererseits ist er dadurch auch stark eingeschränkt.<br
+    />
+    Inerhalb einer Funktion kann Speicher im Stack allokiert werden. Dieser Speicher wird automatisch freigegeben, wenn die
+    Funktion beendet wird.
+</p>
+
+<Code
+    code={`
+public class Main {
+    public static void main(String[] args) {
+        // drei lokale Variablen werden im Stack allokiert
+        int a = 1;
+        int b = 2;
+        int c = a + b;
+    }
+}`}
+/>
+
+<div id="stack" class="flex flex-row gap-1">
+    {range(10).map((_) => <div class="memory" />)}
+</div>
+
+<h3>Heap</h3>
+
+<p>
+    Der Heap ist ein weiterer wichtiger Teil im Arbeitsspeicher. Hier wird Speicher allokiert, der dort für längere Zeit
+    verbleibt. Der Heap ist unstrukturiert und kann beliebig verändert werden. Das macht ihn langsam, aber auch
+    flexibel.<br />
+    Java allokiert alle Objekte im Heap. Die Referenzen auf diese Objekte können im Stack oder im Heap gespeichert werden.
+    Der Garbage Collector von Java ist dafür zuständig, den Speicher im Heap zu bereinigen, wenn er nicht mehr benötigt wird.
+    Das ist ein aufwendiger Prozess, der die Performance beeinträchtigt. Sprachen wie C setzen daher auf manuelles Speichermanagement,
+    dabei muss der Entwickler den Speicher selbst freigeben.
+</p>
+
+<Code
+    code={`
+public class Main {
+    // Attribute werden im Heap allokiert
+    private static Map<String, Object> map = new HashMap<>();
+    
+    public static void main(String[] args) {
+        // ein neues Objekt wird im Heap allokiert
+        // die lokale Variable obj wird im Stack allokiert und verweist auf das Objekt im Heap
+        Object obj = new Object();
+    }
+}`}
+/>
+
+<div id="heap" class="grid h-96 grid-cols-10 grid-rows-4 gap-1">
+    <div class="bg-ctp-subtext0" style="grid-area: 2 / 6 / 4 / 9;"></div>
+    <div class="bg-ctp-subtext0" style="grid-area: 2 / 2 / 3 / 4;"></div>
+    <div class="bg-ctp-subtext0" style="grid-area: 2 / 10 / 3 / 11;"></div>
+    <div class="bg-ctp-subtext0" style="grid-area: 2 / 1 / 4 / 2;"></div>
+    <div class="bg-ctp-subtext0" style="grid-area: 3 / 3 / 4 / 5;"></div>
+    <div class="bg-ctp-subtext0" style="grid-area: 1 / 1 / 2 / 4;"></div>
+    <div class="bg-ctp-subtext0" style="grid-area: 4 / 10 / 5 / 11;"></div>
+    <div class="bg-ctp-subtext0" style="grid-area: 4 / 3 / 5 / 4;"></div>
+    <div class="bg-ctp-subtext0" style="grid-area: 1 / 5 / 3 / 6;"></div>
+    <div class="bg-ctp-subtext0" style="grid-area: 3 / 2 / 5 / 3;"></div>
+    <div class="bg-ctp-subtext0" style="grid-area: 4 / 4 / 5 / 7;"></div>
+    <div class="bg-ctp-subtext0" style="grid-area: 4 / 1 / 5 / 2;"></div>
+    <div class="bg-ctp-subtext0" style="grid-area: 3 / 5 / 4 / 6;"></div>
+    <div class="bg-ctp-subtext0" style="grid-area: 3 / 10 / 4 / 11;"></div>
+    <div class="bg-ctp-subtext0" style="grid-area: 1 / 6 / 2 / 8;"></div>
+    <div class="bg-ctp-subtext0" style="grid-area: 1 / 8 / 2 / 11;"></div>
+    <div class="bg-ctp-subtext0" style="grid-area: 1 / 4 / 3 / 5;"></div>
+    <div class="bg-ctp-subtext0" style="grid-area: 2 / 9 / 4 / 10;"></div>
+    <div class="bg-ctp-subtext0" style="grid-area: 4 / 7 / 5 / 8;"></div>
+    <div class="bg-ctp-subtext0" style="grid-area: 4 / 8 / 5 / 10;"></div>
+</div>
+
+<p class="mt-8">Verwende Stack und Heap bewusst so wie sie gedacht sind.</p>
+
+<style lang="scss">
+    #stack {
+        .memory {
+            opacity: 0;
+            @for $i from 1 through 10 {
+                &:nth-child(#{$i}) {
+                    @keyframes stack-appear-#{$i} {
+                        0% {
+                            transform: translateY(-100%);
+                            opacity: 0;
+                        }
+                        #{$i * 4}% {
+                            transform: translateY(-100%);
+                            opacity: 0;
+                        }
+                        #{$i * 4 + 4}% {
+                            transform: translateY(0);
+                            opacity: 1;
+                        }
+                        50% {
+                            transform: translateY(0);
+                            opacity: 1;
+                        }
+                        #{(11 - $i) * 4 + 50}% {
+                            transform: translateY(0);
+                            opacity: 1;
+                        }
+                        #{(11 - $i) * 4 + 54}% {
+                            transform: translateY(-100%);
+                            opacity: 0;
+                        }
+                        100% {
+                            transform: translateY(-2rem);
+                            opacity: 0;
+                        }
+                    }
+
+                    animation: {
+                        name: stack-appear-#{$i};
+                        duration: 5s;
+                        iteration-count: infinite;
+                        timing-function: linear;
+                    }
+                }
+            }
+        }
+    }
+
+    #heap {
+        @for $i from 1 through 20 {
+            div:nth-child(#{$i}) {
+                @keyframes heap-appear-#{$i} {
+                    0% {
+                        transform: scale(0.5);
+                        opacity: 0;
+                    }
+                    #{$i * 2}% {
+                        transform: scale(0.5);
+                        opacity: 0;
+                    }
+                    #{$i * 2 + 2}% {
+                        transform: scale(1);
+                        opacity: 1;
+                    }
+                    50% {
+                        transform: scale(1);
+                        opacity: 1;
+                    }
+                    #{(21 - $i) * 2 + 50}% {
+                        transform: scale(1);
+                        opacity: 1;
+                    }
+                    #{(21 - $i) * 2 + 52}% {
+                        transform: scale(0.5);
+                        opacity: 0;
+                    }
+                    100% {
+                        transform: scale(0.5);
+                        opacity: 0;
+                    }
+                }
+
+                animation: {
+                    name: heap-appear-#{$i};
+                    duration: 5s;
+                    iteration-count: infinite;
+                    timing-function: linear;
+                }
+            }
+        }
+    }
+</style>

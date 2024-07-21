@@ -3,6 +3,7 @@ import { Benchmark } from "../components/react/Benchmark"
 import Layout from "../layouts/Layout.astro"
 import { pub } from "../script/config"
 import LnCache from "../components/LnCache.astro"
+import StackVsHeap from "../components/StackVsHeap.astro"
 ---
 
 <Layout title="Runtime">
@@ -29,6 +30,11 @@ import LnCache from "../components/LnCache.astro"
     <Benchmark client:visible client:only="react" />
 
     <h2>Contiguous Memory</h2>
-    <h3>Cache</h3>
     <LnCache />
+    <h2>Stack & Heap</h2>
+    <StackVsHeap />
+    <h2>Datenkompression</h2>
+    <h2>Syscalls</h2>
+    <h2>Exceptions</h2>
+    <h2>Polymorphie</h2>
 </Layout>
