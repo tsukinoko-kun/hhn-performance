@@ -1,6 +1,7 @@
 ---
 import "../styles/index.scss"
 import { pub, unpub } from "../script/config"
+import Link from "../components/Link.astro"
 
 interface Props {
     title?: string
@@ -25,9 +26,9 @@ const title = Astro.props.title ? `${prefix} - ${Astro.props.title}` : prefix
         {
             unpub(Astro.url.pathname) === "" ? null : (
                 <nav>
-                    <a href={pub("/")} class="block px-2 py-4 text-xl text-ctp-mauve underline">
+                    <Link href={pub("/")} class="block px-2 py-4 text-xl text-ctp-mauve underline">
                         Zurück zur Hauptseite
-                    </a>
+                    </Link>
                 </nav>
             )
         }

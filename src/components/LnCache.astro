@@ -64,7 +64,7 @@ public class Main {
 </div>
 <b>Legende</b>
 <ul>
-    <li><span class="text-ctp-subtext0">Grau</span>: List-Element im Arbeitsspeicher</li>
+    <li><span class="text-ctp-subtext1">Grau</span>: List-Element im Arbeitsspeicher</li>
     <li><span class="text-ctp-blue">Blau</span>: List-Element im CPU-Cache</li>
     <li>Pfeil: Loop Index</li>
 </ul>
@@ -90,7 +90,7 @@ public class Main {
 </div>
 <b>Legende</b>
 <ul>
-    <li><span class="text-ctp-subtext0">Grau</span>: Array-Element im Arbeitsspeicher</li>
+    <li><span class="text-ctp-subtext1">Grau</span>: Array-Element im Arbeitsspeicher</li>
     <li><span class="text-ctp-blue">Blau</span>: Array-Element im CPU-Cache</li>
     <li>Pfeil: Loop Index</li>
 </ul>
@@ -135,10 +135,10 @@ public class Main {
 
     @keyframes uncached-memory-load {
         0% {
-            background-color: rgb(var(--ctp-subtext0));
+            background-color: rgb(var(--ctp-subtext1));
         }
         8% {
-            background-color: rgb(var(--ctp-subtext0));
+            background-color: rgb(var(--ctp-subtext1));
         }
         12% {
             background-color: rgb(var(--ctp-blue));
@@ -147,10 +147,10 @@ public class Main {
             background-color: rgb(var(--ctp-blue));
         }
         20% {
-            background-color: rgb(var(--ctp-subtext0));
+            background-color: rgb(var(--ctp-subtext1));
         }
         100% {
-            background-color: rgb(var(--ctp-subtext0));
+            background-color: rgb(var(--ctp-subtext1));
         }
     }
 
@@ -189,10 +189,10 @@ public class Main {
 
     @keyframes cached-memory-load {
         0% {
-            background-color: rgb(var(--ctp-subtext0));
+            background-color: rgb(var(--ctp-subtext1));
         }
         2% {
-            background-color: rgb(var(--ctp-subtext0));
+            background-color: rgb(var(--ctp-subtext1));
         }
         8% {
             background-color: rgb(var(--ctp-blue));
@@ -201,10 +201,10 @@ public class Main {
             background-color: rgb(var(--ctp-blue));
         }
         64% {
-            background-color: rgb(var(--ctp-subtext0));
+            background-color: rgb(var(--ctp-subtext1));
         }
         100% {
-            background-color: rgb(var(--ctp-subtext0));
+            background-color: rgb(var(--ctp-subtext1));
         }
     }
 

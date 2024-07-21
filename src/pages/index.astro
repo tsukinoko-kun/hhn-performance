@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro"
 import { pub } from "../script/config"
+import Link from "../components/Link.astro"
 ---
 
 <Layout title="Übersicht">
@@ -12,9 +13,9 @@ import { pub } from "../script/config"
     </ul>
 
     <p>
-        Build- und Startup-Performance sind abhängig von der Programmiersprache, daher sind <a
-            href={pub("build_and_startup")}>hier</a
+        Build- und Startup-Performance sind abhängig von der Programmiersprache, daher sind <Link
+            href={pub("build_and_startup")}>hier</Link
         > nur ein paar grobe Informationen, für die, die es interessirt. Wir beschäftigen uns hauptsächlich mit der Optimierung
-        der <a href={pub("runtime")}>Runtime-Performance</a>.
+        der <Link href={pub("runtime")}>Runtime-Performance</Link>.
     </p>
 </Layout>

@@ -4,6 +4,8 @@ import Layout from "../layouts/Layout.astro"
 import { pub } from "../script/config"
 import LnCache from "../components/LnCache.astro"
 import StackVsHeap from "../components/StackVsHeap.astro"
+import Code from "../components/Code.astro"
+import Link from "../components/Link.astro"
 ---
 
 <Layout title="Runtime">
@@ -34,7 +36,177 @@ import StackVsHeap from "../components/StackVsHeap.astro"
     <h2>Stack & Heap</h2>
     <StackVsHeap />
     <h2>Daten&shy;kompression</h2>
+    <p>
+        Bei rießigen Datenmengen ist es oft sinnvoll, diese zu komprimieren, um Speicherplatz zu sparen. Hierbei geht es
+        um grundlegende Techniken der Informatik wie
+        <Link href="https://youtu.be/JsTptu56GM8">Huffman-Coding</Link>
+        oder
+        <Link href="https://youtu.be/RON2FmNrR58">Karnaugh map (KV-Diagramm) </Link>
+        .
+    </p>
+    <p>
+        Bei diesen Techniken arbeitet man meist mit einzelnen Bits. Jedoch gibt es in keiner Programmiersprache einen
+        Datentyp für einzelne Bits. Das liegt daran, dass die CPU nur auf Byte-Ebene arbeitet. Ein Bit hat keine Adresse
+        (Pointer) im Arbeitsspeicher.
+    </p>
+    <p>
+        Bei kleinen Datenmengen kann man primitive Ganzzahl-Typen (in Java <code>int</code>(32 Bit) und <code>long</code
+        >(64 Bit)) verwenden.
+    </p>
+    <Code
+        code={`
+public class Main {
+    public static void main(String[] args) {
+        int bits = 0; // 8 Byte 32 bit
+        System.out.println(Integer.toBinaryString(bits));
+
+        // setze das 3. Bit von rechts auf 1
+        bits |= 0b100;
+        System.out.println(Integer.toBinaryString(bits));
+
+        // setze das 4. Bit von rechts auf 1
+        bits |= 0b1 << 3; // 0b1 bitshift um 3 Stellen nach links -> 0b1000
+        System.out.println(Integer.toBinaryString(bits));
+
+        // invertiere alle Bits
+        bits = ~bits;
+        System.out.println(Integer.toBinaryString(bits));
+
+        // Schiebe alle Bits um 2 Stellen nach rechts
+        bits >>= 2;
+        System.out.println(Integer.toBinaryString(bits));
+    }
+}
+`}
+    />
+    <p>
+        Bei größeren Datenmengen gibt es verschiedene Möglichkeiten je nach Programmiersprache. Java bietet den Datentyp
+        <code>BitSet</code> an.
+    </p>
+    <Code
+        code={`
+import java.util.BitSet;
+
+public class Main {
+    public static void main(String[] args) {
+        BitSet bits = new BitSet(32); // 32 bit
+        printBitSet(bits);
+
+        // setze das 3. Bit von rechts auf 1
+        bits.set(2); // BitSet ist nullbasiert, daher Index 2
+        printBitSet(bits);
+
+        // setze das 4. Bit von rechts auf 1
+        bits.set(3);
+        printBitSet(bits);
+
+        // invertiere alle Bits
+        bits.flip(0, bits.length());
+        printBitSet(bits);
+
+        // Schiebe alle Bits um 2 Stellen nach rechts
+        bits = bits.get(2, bits.length());
+        printBitSet(bits);
+    }
+
+    private static void printBitSet(BitSet bitSet) {
+        StringBuilder binaryString = new StringBuilder();
+        for (int i = 0; i < 32; i++) {
+            binaryString.append(bitSet.get(i) ? "1" : "0");
+        }
+        System.out.println(binaryString.reverse());
+    }
+}
+    `}
+    />
     <h2>Syscalls</h2>
+    <p>
+        Syscalls sind Anfragen an das Betriebssystem, um bestimmte Aufgaben zu erledigen, die das Programm selbst nicht
+        kann. Dazu gehören das Lesen und Schreiben von Dateien (Festplattenzugriff), das Erstellen von Prozessen, das
+        Erstellen von Netzwerkverbindungen und das Verwalten von Speicher (Arbeitsspeicher).
+    </p>
+    <p>
+        Mehr Infos dazu gibt es indem Video
+        <Link href="https://youtu.be/UW7a1n3VEFg">System calls at the assembly level von Artem Pianykh </Link>
+        .
+    </p>
+    <p>
+        Syscalls sind langsam. Deshalb ist es wichtig, Syscalls zu minimieren, um die Leistung des Programms zu
+        verbessern.
+    </p>
+
     <h2>Exceptions</h2>
-    <h2>Polymorphie</h2>
+    <h3>TL;DR</h3>
+    <p>
+        Eine Exception stellt einen <b>unerwarteten</b> Zustand dar, der während der Ausführung eines Programms auftritt.
+        Daher sind CPUs und JIT nicht darauf optimiert, was den try-catch-Prozess langsam macht.
+    </p>
+    <p>
+        Verwende Exceptions <b>nur</b> für unerwartete Fehler. Erwartete Probleme sollten vorher geprüft werden (z.B. ob
+        ein Ordner Existiert, in dem eine neue Datei erstellt werden soll).
+    </p>
+
+    <h3>Details</h3>
+    <h4>Ablauf</h4>
+    <p>Wenn in einem Programm eine Exception geworfen und abgefangen wird, laufen mehrere Schritte ab:</p>
+    <ul>
+        <li>
+            <p><b>Erzeugung der Exception</b></p>
+            <p>
+                Es wird ein Objekt der <code>Exception</code>-Klasse (z. B. <code>IOException</code>,
+                <code>NullPointerException</code>) erstellt. Dieses Objekt enthält in der Regel Informationen über den
+                Fehler, wie z. B. eine Meldung und den Call Stack.
+            </p>
+        </li>
+        <li>
+            <p><b>Stack Unwinding</b></p>
+            <ul>
+                <li>
+                    <p>Aufzeichnung des aktuellen Stack Trace basierend auf dem Call Stack.</p>
+                </li>
+                <li>
+                    <p>
+                        Durchlaufen des Aufrufstapels Frame für Frame auf der Suche nach einem Catch-Block, der den
+                        spezifischen Typ der Exception behandeln kann.
+                    </p>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <p><b>Aufruf des Handlers</b></p>
+            <p>
+                Sobald ein geeigneter Catch-Block gefunden wurde, übergibt die Laufzeitumgebung die Kontrolle an diesen
+                Block. Der Catch-Block kann dann die Exception verarbeiten (z. B. den Fehler protokollieren, eine
+                Bereinigung durchführen oder eine Wiederherstellung versuchen).
+            </p>
+        </li>
+        <li>
+            <p><b>Wiederaufnahme der Ausführung</b></p>
+            <p>
+                Nachdem der Catch-Block ausgeführt wurde, setzt das Programm die Ausführung nach dem Catch-Block fort.
+                Wenn kein geeigneter Catch-Block gefunden wird, kann das Programm beendet werden, und die nicht
+                abgefangene Exception kann dazu führen, dass ein Stack-Trace ausgegeben wird.
+            </p>
+        </li>
+    </ul>
+
+    <h4>Warum ist das langsam?</h4>
+    <p>Der beschriebene Prozess hört sich schon langsam an.</p>
+    <p>Das Hauptproblem sind aber zwei Folgen Punkte:</p>
+    <ol>
+        <li>
+            <p>
+                CPUs und JIT sind nicht darauf optimiert, den Prozess des Werfens und Abfangens von Exceptions schnell
+                durchzuführen. Es wird davon ausgegangen, dass Exceptions selten auftreten, da es sich dabei um einen
+                unerwarteten Zustand handelt, der während der Ausführung eines Programms nicht auftreten sollte.
+            </p>
+        </li>
+        <li>
+            <p>
+                Die CPU leert Caches, da sie nicht weiß, wohin der Code als nächstes springt. Anders als bei einem
+                Funktions-Return springt der Code nicht an eine fest definierte Stelle, sondern an eine Stelle, die erst
+                zur Laufzeit bestimmt wird.
+            </p>
+        </li>
+    </ol>
 </Layout>
