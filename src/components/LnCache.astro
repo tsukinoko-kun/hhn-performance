@@ -78,15 +78,15 @@ public class Main {
             transform: translateY(-4rem);
             opacity: 0;
         }
-        6% {
+        12% {
             transform: translateY(0);
             opacity: 1;
         }
-        8% {
+        16% {
             transform: translateY(0);
             opacity: 1;
         }
-        10% {
+        20% {
             transform: translateY(-4rem);
             opacity: 0;
         }
@@ -100,16 +100,16 @@ public class Main {
         0% {
             background-color: rgb(var(--ctp-subtext0));
         }
-        4% {
+        8% {
             background-color: rgb(var(--ctp-subtext0));
         }
-        6% {
+        12% {
             background-color: rgb(var(--ctp-blue));
         }
-        8% {
+        16% {
             background-color: rgb(var(--ctp-blue));
         }
-        10% {
+        20% {
             background-color: rgb(var(--ctp-subtext0));
         }
         100% {
@@ -120,11 +120,11 @@ public class Main {
     #no-cache {
         @for $i from 0 through 9 {
             .memory:nth-child(#{$i + 1}) {
-                animation: uncached-memory-load 10s infinite;
+                animation: uncached-memory-load 6s infinite;
                 animation-delay: $i * 0.5s;
 
                 &:after {
-                    animation: uncached-memory-access 10s infinite;
+                    animation: uncached-memory-access 6s infinite;
                     animation-delay: $i * 0.5s;
                 }
             }
@@ -136,19 +136,15 @@ public class Main {
             transform: translateY(-4rem);
             opacity: 0;
         }
-        2% {
-            transform: translateY(-4rem);
-            opacity: 0;
-        }
-        6% {
+        12% {
             transform: translateY(0);
             opacity: 1;
         }
-        4% {
+        13% {
             transform: translateY(0);
             opacity: 1;
         }
-        8% {
+        17% {
             transform: translateY(-4rem);
             opacity: 0;
         }
@@ -163,12 +159,15 @@ public class Main {
             background-color: rgb(var(--ctp-subtext0));
         }
         2% {
+            background-color: rgb(var(--ctp-subtext0));
+        }
+        8% {
             background-color: rgb(var(--ctp-blue));
         }
-        30% {
+        60% {
             background-color: rgb(var(--ctp-blue));
         }
-        32% {
+        64% {
             background-color: rgb(var(--ctp-subtext0));
         }
         100% {
@@ -179,11 +178,11 @@ public class Main {
     #cache {
         @for $i from 0 through 9 {
             .memory:nth-child(#{$i + 1}) {
-                animation: cached-memory-load 10s infinite;
-                animation-delay: 0.25s;
+                animation: cached-memory-load 6s infinite;
+                animation-delay: 0.125s;
 
                 &:after {
-                    animation: cached-memory-access 10s infinite;
+                    animation: cached-memory-access 6s infinite;
                     animation-delay: $i * 0.25s;
                 }
             }
