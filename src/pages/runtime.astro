@@ -122,8 +122,10 @@ public class Main {
     <h2>Syscalls</h2>
     <p>
         Syscalls sind Anfragen an das Betriebssystem, um bestimmte Aufgaben zu erledigen, die das Programm selbst nicht
-        kann. Dazu gehören das Lesen und Schreiben von Dateien (Festplattenzugriff), das Erstellen von Prozessen, das
-        Erstellen von Netzwerkverbindungen und das Verwalten von Speicher (Arbeitsspeicher).
+        kann. Dazu gehören das Lesen und Schreiben von Dateien (Festplattenzugriff) oder den <Link
+            href="https://en.wikipedia.org/wiki/Standard_streams">Standard streams</Link
+        >, das Erstellen von Prozessen, das Erstellen von Netzwerkverbindungen und das Verwalten von Speicher
+        (Arbeitsspeicher).
     </p>
     <p>
         Mehr Infos dazu gibt es indem Video
@@ -134,79 +136,4 @@ public class Main {
         Syscalls sind langsam. Deshalb ist es wichtig, Syscalls zu minimieren, um die Leistung des Programms zu
         verbessern.
     </p>
-
-    <h2>Exceptions</h2>
-    <h3>TL;DR</h3>
-    <p>
-        Eine Exception stellt einen <b>unerwarteten</b> Zustand dar, der während der Ausführung eines Programms auftritt.
-        Daher sind CPUs und JIT nicht darauf optimiert, was den try-catch-Prozess langsam macht.
-    </p>
-    <p>
-        Verwende Exceptions <b>nur</b> für unerwartete Fehler. Erwartete Probleme sollten vorher geprüft werden (z.B. ob
-        ein Ordner Existiert, in dem eine neue Datei erstellt werden soll).
-    </p>
-
-    <h3>Details</h3>
-    <h4>Ablauf</h4>
-    <p>Wenn in einem Programm eine Exception geworfen und abgefangen wird, laufen mehrere Schritte ab:</p>
-    <ul>
-        <li>
-            <p><b>Erzeugung der Exception</b></p>
-            <p>
-                Es wird ein Objekt der <code>Exception</code>-Klasse (z. B. <code>IOException</code>,
-                <code>NullPointerException</code>) erstellt. Dieses Objekt enthält in der Regel Informationen über den
-                Fehler, wie z. B. eine Meldung und den Call Stack.
-            </p>
-        </li>
-        <li>
-            <p><b>Stack Unwinding</b></p>
-            <ul>
-                <li>
-                    <p>Aufzeichnung des aktuellen Stack Trace basierend auf dem Call Stack.</p>
-                </li>
-                <li>
-                    <p>
-                        Durchlaufen des Aufrufstapels Frame für Frame auf der Suche nach einem Catch-Block, der den
-                        spezifischen Typ der Exception behandeln kann.
-                    </p>
-                </li>
-            </ul>
-        </li>
-        <li>
-            <p><b>Aufruf des Handlers</b></p>
-            <p>
-                Sobald ein geeigneter Catch-Block gefunden wurde, übergibt die Laufzeitumgebung die Kontrolle an diesen
-                Block. Der Catch-Block kann dann die Exception verarbeiten (z. B. den Fehler protokollieren, eine
-                Bereinigung durchführen oder eine Wiederherstellung versuchen).
-            </p>
-        </li>
-        <li>
-            <p><b>Wiederaufnahme der Ausführung</b></p>
-            <p>
-                Nachdem der Catch-Block ausgeführt wurde, setzt das Programm die Ausführung nach dem Catch-Block fort.
-                Wenn kein geeigneter Catch-Block gefunden wird, kann das Programm beendet werden, und die nicht
-                abgefangene Exception kann dazu führen, dass ein Stack-Trace ausgegeben wird.
-            </p>
-        </li>
-    </ul>
-
-    <h4>Warum ist das langsam?</h4>
-    <p>Der beschriebene Prozess hört sich schon langsam an.</p>
-    <p>Das Hauptproblem sind aber zwei Folgen Punkte:</p>
-    <ol>
-        <li>
-            <p>
-                CPUs und JIT sind nicht darauf optimiert, den Prozess des Werfens und Abfangens von Exceptions schnell
-                durchzuführen. Es wird davon ausgegangen, dass Exceptions selten auftreten, da es sich dabei um einen
-                unerwarteten Zustand handelt, der während der Ausführung eines Programms nicht auftreten sollte.
-            </p>
-        </li>
-        <li>
-            <p>
-                Die CPU leert Caches, da sie nicht weiß, wohin der Code als nächstes springt. Anders als bei einem
-                Funktions-Return springt der Code nicht an eine fest definierte Stelle, sondern an eine Stelle, die erst
-                zur Laufzeit bestimmt wird.
-            </p>
-        </li>
-    </ol>
 </Layout>
