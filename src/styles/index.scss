@@ -4,9 +4,8 @@
 }
 
 :root,
-body,
-main {
-    overflow-x: hidden !important;
+body {
+    overflow-x: clip !important;
 }
 
 main {
