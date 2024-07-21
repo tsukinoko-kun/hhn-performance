@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 
-const darkQuery = window.matchMedia?.("(prefers-color-scheme: dark)")
+const darkQuery = "window" in globalThis ? window.matchMedia?.("(prefers-color-scheme: dark)") : null
 
 export function catppuccin() {
     const [style, setStyle] = useState(darkQuery?.matches ? mocha : latte)

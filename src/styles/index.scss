@@ -38,6 +38,7 @@ main {
         }
         background-color: rgb(var(--ctp-base));
         display: flex;
+        gap: 0.5rem;
         flex-wrap: nowrap;
         flex-direction: row;
         align-content: flex-end;
