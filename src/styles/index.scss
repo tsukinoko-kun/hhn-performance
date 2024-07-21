@@ -3,6 +3,12 @@
     --content-width: min(1040px, 100vw);
 }
 
+:root,
+body,
+main {
+    overflow-x: hidden !important;
+}
+
 main {
     counter-reset: headings2;
 
@@ -21,24 +27,31 @@ main {
         color: rgb(var(--ctp-lavender));
         line-height: 2rem;
         font-weight: 800;
-        border-bottom: 1px solid currentColor;
         padding: {
-            top: 0.5rem;
+            top: 1rem;
             bottom: 1rem;
         }
-        margin: {
-            top: 4rem;
-            bottom: 2rem;
+        height: 6rem;
+        margin-top: 4rem;
+        border: {
+            bottom: 1px solid currentColor;
         }
+        background-color: rgb(var(--ctp-base));
+        display: flex;
+        flex-wrap: nowrap;
+        flex-direction: row;
+        align-content: flex-end;
+        justify-content: flex-start;
+        align-items: flex-end;
+        filter: drop-shadow(0 0 0.5rem rgb(var(--ctp-base)));
+
         counter-reset: headings3;
         &::before {
             content: counter(headings2) ". ";
             counter-increment: headings2;
         }
-        display: block;
         position: sticky;
         top: 0;
-        background-color: rgb(var(--ctp-base));
         z-index: 10;
     }
 

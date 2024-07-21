@@ -90,31 +90,38 @@ public class Main {
                 &:nth-child(#{$i}) {
                     @keyframes stack-appear-#{$i} {
                         0% {
-                            transform: translateY(-100%);
+                            translate: 50% 0;
+                            scale: 1.5;
                             opacity: 0;
                         }
                         #{$i * 4}% {
-                            transform: translateY(-100%);
+                            translate: 50% 0;
+                            scale: 1.5;
                             opacity: 0;
                         }
                         #{$i * 4 + 4}% {
-                            transform: translateY(0);
+                            translate: 0 0;
+                            scale: 1;
                             opacity: 1;
                         }
                         50% {
-                            transform: translateY(0);
+                            translate: 0 0;
+                            scale: 1;
                             opacity: 1;
                         }
                         #{(11 - $i) * 4 + 50}% {
-                            transform: translateY(0);
+                            translate: 0 0;
+                            scale: 1;
                             opacity: 1;
                         }
                         #{(11 - $i) * 4 + 54}% {
-                            transform: translateY(-100%);
+                            translate: 50% 0;
+                            scale: 0.5;
                             opacity: 0;
                         }
                         100% {
-                            transform: translateY(-2rem);
+                            translate: 50% 0;
+                            scale: 0.5;
                             opacity: 0;
                         }
                     }
@@ -135,31 +142,31 @@ public class Main {
             div:nth-child(#{$i}) {
                 @keyframes heap-appear-#{$i} {
                     0% {
-                        transform: scale(0.5);
+                        scale: 1.5;
                         opacity: 0;
                     }
                     #{$i * 2}% {
-                        transform: scale(0.5);
+                        scale: 1.5;
                         opacity: 0;
                     }
                     #{$i * 2 + 2}% {
-                        transform: scale(1);
+                        scale: 1;
                         opacity: 1;
                     }
                     50% {
-                        transform: scale(1);
+                        scale: 1;
                         opacity: 1;
                     }
                     #{(21 - $i) * 2 + 50}% {
-                        transform: scale(1);
+                        scale: 1;
                         opacity: 1;
                     }
                     #{(21 - $i) * 2 + 52}% {
-                        transform: scale(0.5);
+                        scale: 0.5;
                         opacity: 0;
                     }
                     100% {
-                        transform: scale(0.5);
+                        scale: 0.5;
                         opacity: 0;
                     }
                 }
