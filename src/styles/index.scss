@@ -11,6 +11,10 @@ body {
 main {
     counter-reset: headings2;
 
+    h1, h2, h3, h4, h5, h6 {
+        text-wrap: balance;
+    }
+
     h1 {
         font-size: 3rem;
         line-height: 2.2rem;
@@ -43,15 +47,15 @@ main {
         align-content: flex-end;
         justify-content: flex-start;
         align-items: flex-end;
-
+        position: sticky;
+        top: 0;
+        z-index: 10;
         counter-reset: headings3;
+
         &::before {
             content: counter(headings2) ". ";
             counter-increment: headings2;
         }
-        position: sticky;
-        top: 0;
-        z-index: 10;
     }
 
     h3 {

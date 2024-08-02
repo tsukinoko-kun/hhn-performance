@@ -29,7 +29,38 @@ import Link from "../components/Link.astro"
         eines Rechtecks zeigt an, wie viel Zeit diese Funktion im Vergleich zu anderen Funktionen in Anspruch nimmt. Je
         breiter das Rechteck, desto mehr Zeit wird in dieser Funktion verbracht.
     </p>
-    <Benchmark client:visible client:only="react" />
+    <div style={`min-height: calc(24em + 200px)`}>
+        <Benchmark client:visible client:only="react" />
+    </div>
+
+    <h2>Benchmarking</h2>
+    <p>
+        Bevor du irgendwelche Änderungen vornimmst, solltest du einen Benchmark durchführen. Für Java gibt es
+        beispielsweise JMH (Java Microbenchmark Harness).
+    </p>
+    <p>Hier der Gradle Code für JMH:</p>
+    <Code
+        language="groovy"
+        code={`
+plugins {
+    id "me.champeau.jmh" version "0.7.2"
+}
+
+sourceSets {
+    jmh {
+        java {
+            srcDirs = ['src/jmh/java']
+        }
+    }
+}
+
+dependencies {
+    jmh 'org.openjdk.jmh:jmh-core:1.37'
+    jmh 'org.openjdk.jmh:jmh-generator-annprocess:1.37'
+    jmh 'org.openjdk.jmh:jmh-generator-bytecode:1.37'
+}
+        `}
+    />
 
     <h2>Contiguous Memory</h2>
     <LnCache />

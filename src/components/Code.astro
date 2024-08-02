@@ -3,7 +3,10 @@ import { Code as ReactCode } from "./react/Code"
 
 export type Props = {
     code: string
+    language?: string
 }
 ---
 
-<ReactCode client:only="react" code={Astro.props.code.trim()} />
+<div style={`min-height:${Astro.props.code.split("\n").length * 1.5 + 1}em`}>
+    <ReactCode client:only="react" code={Astro.props.code.trim()} language={Astro.props.language} />
+</div>
