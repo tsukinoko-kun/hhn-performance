@@ -8,6 +8,7 @@ const padding = 32
 type ItemData = {
     name: string
     value: number
+    backgroundColor: string
     children?: Array<ItemData>
 }
 
