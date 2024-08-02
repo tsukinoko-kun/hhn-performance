@@ -152,4 +152,13 @@ main {
     code {
         font-variant-ligatures: none;
     }
+
+    svg {
+        rect {
+            stroke: rgb(var(--ctp-base)) !important;
+        }
+        foreignObject div {
+            color: rgb(var(--ctp-crust)) !important;
+        }
+    }
 }
