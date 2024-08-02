@@ -1,0 +1,215 @@
+---
+
+---
+
+<div id="jmh-outer">
+    <pre
+        id="jmh-inner-preview"
+        class="overflow-x-auto bg-ctp-crust px-4">
+    <code set:text={`
+Benchmark            (n)   Mode  Cnt    Score    Error   Units
+RulesBenchmark.tick   16  thrpt   10  581.350 ± 52.598  ops/ms
+RulesBenchmark.tick   32  thrpt   10  134.838 ±  5.619  ops/ms
+RulesBenchmark.tick   64  thrpt   10   31.663 ±  2.489  ops/ms
+`} />
+    </pre>
+
+    <pre
+        id="jmh-inner-full"
+        class="overflow-x-auto bg-ctp-crust px-4">
+    <code set:text={`
+> Task :jmhRunBytecodeGenerator
+Processing 1 classes from /Users/frank/Git/gol/build/classes/java/jmh with "reflection" generator
+Writing out Java source to /Users/frank/Git/gol/build/jmh-generated-sources and resources to /Users/frank/Git/gol/build/jmh-generated-resources
+Processing 1 classes from /Users/frank/Git/gol/build/classes/java/test with "reflection" generator
+Writing out Java source to /Users/frank/Git/gol/build/jmh-generated-sources and resources to /Users/frank/Git/gol/build/jmh-generated-resources
+
+> Task :jmh
+# JMH version: 1.37
+# VM version: JDK 22.0.2, OpenJDK 64-Bit Server VM, 22.0.2+9-FR
+# VM invoker: /Library/Java/JavaVirtualMachines/amazon-corretto-22.jdk/Contents/Home/bin/java
+# VM options: -Dfile.encoding=UTF-8 -Djava.io.tmpdir=/Users/frank/Git/gol/build/tmp/jmh -Duser.country=US -Duser.language=en -Duser.variant
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 5 iterations, 2 s each
+# Measurement: 5 iterations, 2 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Throughput, ops/time
+# Benchmark: de.hhn.seb.kprog.RulesBenchmark.tick
+# Parameters: (n = 16)
+
+# Run progress: 0.00% complete, ETA 00:02:00
+# Fork: 1 of 2
+# Warmup Iteration   1: 611.380 ops/ms
+# Warmup Iteration   2: 607.587 ops/ms
+# Warmup Iteration   3: 615.718 ops/ms
+# Warmup Iteration   4: 615.671 ops/ms
+# Warmup Iteration   5: 613.446 ops/ms
+Iteration   1: 615.752 ops/ms [11s]
+Iteration   2: 614.905 ops/ms [13s]
+Iteration   3: 612.925 ops/ms [15s]
+Iteration   4: 614.498 ops/ms [17s]
+Iteration   5: 613.652 ops/ms [19s]
+
+# Run progress: 16.67% complete, ETA 00:01:40
+# Fork: 2 of 2
+# Warmup Iteration   1: 543.665 ops/ms
+# Warmup Iteration   2: 547.266 ops/ms
+# Warmup Iteration   3: 548.887 ops/ms
+# Warmup Iteration   4: 545.937 ops/ms
+# Warmup Iteration   5: 547.605 ops/ms
+Iteration   1: 549.096 ops/ms [31s]
+Iteration   2: 548.399 ops/ms [33s]
+Iteration   3: 548.569 ops/ms [35s]
+Iteration   4: 547.670 ops/ms [37s]
+Iteration   5: 548.035 ops/ms [39s]
+
+
+Result "de.hhn.seb.kprog.RulesBenchmark.tick":
+  581.350 ±(99.9%) 52.598 ops/ms [Average]
+  (min, avg, max) = (547.670, 581.350, 615.752), stdev = 34.791
+  CI (99.9%): [528.752, 633.949] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 22.0.2, OpenJDK 64-Bit Server VM, 22.0.2+9-FR
+# VM invoker: /Library/Java/JavaVirtualMachines/amazon-corretto-22.jdk/Contents/Home/bin/java
+# VM options: -Dfile.encoding=UTF-8 -Djava.io.tmpdir=/Users/frank/Git/gol/build/tmp/jmh -Duser.country=US -Duser.language=en -Duser.variant
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 5 iterations, 2 s each
+# Measurement: 5 iterations, 2 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Throughput, ops/time
+# Benchmark: de.hhn.seb.kprog.RulesBenchmark.tick
+# Parameters: (n = 32)
+
+# Run progress: 33.33% complete, ETA 00:01:20
+# Fork: 1 of 2
+# Warmup Iteration   1: 131.334 ops/ms
+# Warmup Iteration   2: 130.633 ops/ms
+# Warmup Iteration   3: 131.283 ops/ms
+# Warmup Iteration   4: 128.533 ops/ms
+# Warmup Iteration   5: 131.278 ops/ms
+Iteration   1: 131.587 ops/ms [52s]
+Iteration   2: 131.309 ops/ms [54s]
+Iteration   3: 131.593 ops/ms [56s]
+Iteration   4: 131.021 ops/ms [58s]
+Iteration   5: 131.077 ops/ms [1m]
+
+# Run progress: 50.00% complete, ETA 00:01:00
+# Fork: 2 of 2
+# Warmup Iteration   1: 135.868 ops/ms
+# Warmup Iteration   2: 136.918 ops/ms
+# Warmup Iteration   3: 138.633 ops/ms
+# Warmup Iteration   4: 138.551 ops/ms
+# Warmup Iteration   5: 138.211 ops/ms
+Iteration   1: 138.143 ops/ms [1m 12s]
+Iteration   2: 138.240 ops/ms [1m 14s]
+Iteration   3: 138.375 ops/ms [1m 16s]
+Iteration   4: 138.523 ops/ms [1m 18s]
+Iteration   5: 138.509 ops/ms [1m 20s]
+
+
+Result "de.hhn.seb.kprog.RulesBenchmark.tick":
+  134.838 ±(99.9%) 5.619 ops/ms [Average]
+  (min, avg, max) = (131.021, 134.838, 138.523), stdev = 3.717
+  CI (99.9%): [129.218, 140.457] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 22.0.2, OpenJDK 64-Bit Server VM, 22.0.2+9-FR
+# VM invoker: /Library/Java/JavaVirtualMachines/amazon-corretto-22.jdk/Contents/Home/bin/java
+# VM options: -Dfile.encoding=UTF-8 -Djava.io.tmpdir=/Users/frank/Git/gol/build/tmp/jmh -Duser.country=US -Duser.language=en -Duser.variant
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 5 iterations, 2 s each
+# Measurement: 5 iterations, 2 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Throughput, ops/time
+# Benchmark: de.hhn.seb.kprog.RulesBenchmark.tick
+# Parameters: (n = 64)
+
+# Run progress: 66.67% complete, ETA 00:00:40
+# Fork: 1 of 2
+# Warmup Iteration   1: 34.086 ops/ms]
+# Warmup Iteration   2: 33.762 ops/ms]
+# Warmup Iteration   3: 33.222 ops/ms]
+# Warmup Iteration   4: 33.022 ops/ms]
+# Warmup Iteration   5: 33.262 ops/ms]
+Iteration   1: 33.157 ops/msG [1m 32s]
+Iteration   2: 33.221 ops/msG [1m 34s]
+Iteration   3: 33.188 ops/msG [1m 36s]
+Iteration   4: 33.246 ops/msG [1m 38s]
+Iteration   5: 33.311 ops/msG [1m 40s]
+
+# Run progress: 83.33% complete, ETA 00:00:20
+# Fork: 2 of 2
+# Warmup Iteration   1: 30.817 ops/ms]
+# Warmup Iteration   2: 30.540 ops/ms]
+# Warmup Iteration   3: 30.209 ops/ms]
+# Warmup Iteration   4: 30.136 ops/ms]
+# Warmup Iteration   5: 30.060 ops/ms]
+Iteration   1: 30.121 ops/msG [1m 52s]
+Iteration   2: 30.092 ops/msG [1m 54s]
+Iteration   3: 30.150 ops/msG [1m 56s]
+Iteration   4: 30.059 ops/msG [1m 58s]
+Iteration   5: 30.086 ops/msG [2m]
+
+
+Result "de.hhn.seb.kprog.RulesBenchmark.tick":
+  31.663 ±(99.9%) 2.489 ops/ms [Average]
+  (min, avg, max) = (30.059, 31.663, 33.311), stdev = 1.647
+  CI (99.9%): [29.174, 34.152] (assumes normal distribution)
+
+
+# Run complete. Total time: 00:02:01
+
+REMEMBER: The numbers below are just data. To gain reusable insights, you need to follow up on
+why the numbers are the way they are. Use profilers (see -prof, -lprof), design factorial
+experiments, perform baseline and negative tests that provide experimental control, make sure
+the benchmarking environment is safe on JVM/OS/HW level, ask for reviews from the domain experts.
+Do not assume the numbers tell you what you want them to tell.
+
+NOTE: Current JVM experimentally supports Compiler Blackholes, and they are in use. Please exercise
+extra caution when trusting the results, look into the generated code to check the benchmark still
+works, and factor in a small probability of new VM bugs. Additionally, while comparisons between
+different JVMs are already problematic, the performance difference caused by different Blackhole
+modes can be very significant. Please make sure you use the consistent Blackhole mode for comparisons.
+
+Benchmark            (n)   Mode  Cnt    Score    Error   Units
+RulesBenchmark.tick   16  thrpt   10  581.350 ± 52.598  ops/ms
+RulesBenchmark.tick   32  thrpt   10  134.838 ±  5.619  ops/ms
+RulesBenchmark.tick   64  thrpt   10   31.663 ±  2.489  ops/ms
+
+Benchmark result is saved to /Users/frank/Git/gol/build/results/jmh/results.txt
+
+BUILD SUCCESSFUL in 2m 3s
+7 actionable tasks: 7 executed`} />
+    </pre>
+</div>
+
+<script>
+    const outerEl = document.getElementById("jmh-outer")
+    const previewEl = document.getElementById("jmh-inner-preview")
+    const fullEl = document.getElementById("jmh-inner-full")
+
+    outerEl.style.cursor = "zoom-in"
+    previewEl.style.display = "block"
+    fullEl.style.display = "none"
+
+    outerEl.addEventListener("click", () => {
+        if (previewEl.style.display === "none") {
+            previewEl.style.display = "block"
+            fullEl.style.display = "none"
+            outerEl.style.cursor = "zoom-in"
+            setTimeout(() => {
+                outerEl.scrollIntoView({ behavior: "instant", block: "nearest" })
+            }, 1)
+        } else {
+            previewEl.style.display = "none"
+            fullEl.style.display = "block"
+            outerEl.style.cursor = "zoom-out"
+        }
+    })
+</script>

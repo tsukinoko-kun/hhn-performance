@@ -8,6 +8,10 @@ body {
     overflow-x: clip !important;
 }
 
+html {
+    scroll-padding-top: 8rem;
+}
+
 main {
     counter-reset: headings2;
 

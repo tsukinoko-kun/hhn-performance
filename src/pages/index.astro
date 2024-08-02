@@ -6,6 +6,7 @@ import LnCache from "../components/LnCache.astro"
 import StackVsHeap from "../components/StackVsHeap.astro"
 import Code from "../components/Code.astro"
 import Link from "../components/Link.astro"
+import JmhSample from "../components/JmhSample.astro"
 ---
 
 <Layout title="Runtime Performance">
@@ -41,9 +42,14 @@ import Link from "../components/Link.astro"
 
     <h2>Benchmarking</h2>
     <p>
-        Bevor du irgendwelche Änderungen vornimmst, solltest du einen Benchmark durchführen. Für Java gibt es
-        beispielsweise JMH (Java Microbenchmark Harness).
+        Bevor du irgendwelche Optimierungen vornimmst, solltest du einen Benchmark durchführen. Dabei wird die Zeit
+        gemessen, die ein bestimmter Codeabschnitt benötigt, um ausgeführt zu werden, ähnlich wie bei einem Unittest. Da
+        sich die Laufzeit von Durchlauf zu Durchlauf ändern kann (was verschiedene Gründe haben kann), wird der Code
+        mehrmals ausgeführt. Damit wir Entwickler uns nicht mit Statistik beschäftigen müssen, gibt es dafür spezielle
+        Tools.
     </p>
+
+    <p>Für Java gibt es beispielsweise JMH (Java Microbenchmark Harness).</p>
     <p>Hier der Gradle Code für JMH:</p>
     <Code
         language="groovy"
@@ -67,6 +73,20 @@ dependencies {
 }
         `}
     />
+    <p>Ausgeführt wird mit <code>./gradlew :jmh</code></p>
+    <JmhSample />
+    <p>
+        Der <b>Score</b> ist die Anzahl der Operationen (Funktionsdurchläufe) in einer bestimmten Zeit. Ein höherer Score
+        ist besser.
+        <br />
+        <b>Error</b> ist die Standardabweichung. Ein niedriger Wert ist besser, er wird aber nie 0 sein. Eine hohe Standardabweichung
+        bedeutet, dass die Messungen sehr unterschiedlich sind, das kann verschiedene Gründe haben, beispielsweise ein zu
+        kleiner oder zufälliger Input. Ein anzustrebender Wert ist ~0,1%.
+    </p>
+    <p>
+        Führe erst eine Benchmark aus, verändere dann so wenig wie möglich und teste erneut. So kannst du sicherstellen,
+        dass jede Änderung tatsächlich eine Verbesserung darstellt.
+    </p>
 
     <h2>Contiguous Memory</h2>
     <LnCache />
