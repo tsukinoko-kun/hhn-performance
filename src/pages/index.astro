@@ -43,8 +43,9 @@ import JmhSample from "../components/JmhSample.astro"
     <h2>Benchmarking</h2>
     <p>
         Bevor du irgendwelche Optimierungen vornimmst, solltest du einen Benchmark durchführen. Dabei wird die Zeit
-        gemessen, die ein bestimmter Codeabschnitt benötigt, um ausgeführt zu werden, ähnlich wie bei einem Unittest. Da
-        sich die Laufzeit von Durchlauf zu Durchlauf ändern kann (was verschiedene Gründe haben kann), wird der Code
+        gemessen, die ein bestimmter Codeabschnitt benötigt, um ausgeführt zu werden. Ähnlich wie bei einem Unittest
+        musst du als Entwickler Testdaten bereitstellen, um sicherzustellen, dass die Ergebnisse reproduzierbar sind. Da
+        sich die Laufzeit von Durchlauf zu Durchlauf ändern kann (dieser Effekt ist bei Java sehr stark), wird der Code
         mehrmals ausgeführt. Damit wir Entwickler uns nicht mit Statistik beschäftigen müssen, gibt es dafür spezielle
         Tools.
     </p>
@@ -81,12 +82,58 @@ dependencies {
         <br />
         <b>Error</b> ist die Standardabweichung. Ein niedriger Wert ist besser, er wird aber nie 0 sein. Eine hohe Standardabweichung
         bedeutet, dass die Messungen sehr unterschiedlich sind, das kann verschiedene Gründe haben, beispielsweise ein zu
-        kleiner oder zufälliger Input. Ein anzustrebender Wert ist ~0,1%.
+        kleiner oder zufälliger Input. Ein anzustrebender Wert ist ~1% des Score.
     </p>
     <p>
-        Führe erst eine Benchmark aus, verändere dann so wenig wie möglich und teste erneut. So kannst du sicherstellen,
-        dass jede Änderung tatsächlich eine Verbesserung darstellt.
+        Führe erst einen Benchmark aus, verändere dann so wenig wie möglich und teste erneut. So kannst du
+        sicherstellen, dass jede Änderung tatsächlich eine Verbesserung darstellt.
     </p>
+    <p>
+        Die meisten Benchmarking tools sind einstellbar. Also die Anzahl der Durchläufe. Hier gilt es die Durchläufe so
+        lange zu erhöhen, biss die Messergebnisse Konsistent werden. Wer geduldig ist, kann auch die JVM Standardwerte
+        verwenden.
+    </p>
+    <Code
+        code={`
+package de.hhn.seb.kprog;
+
+import org.openjdk.jmh.annotations.Benchmark;
+import org.openjdk.jmh.annotations.*;
+
+@State(Scope.Benchmark)
+public class RulesBenchmark {
+    private World world;
+
+    // Der Benchmark kann mit verschiedenen Inputwerten ausgeführt werden
+    @Param({"64", "512"})
+    private int n;
+
+    // Setup ist wie bei Unittests
+    // Hier werden die Testdaten initialisiert
+    @Setup(Level.Trial)
+    public void setup() {
+        this.world = new World(this.n);
+    }
+
+    // Der Benchmark selbst (es kann mehrere geben):
+    
+    @Benchmark
+    // im Normalfall willst du Throughput, das ist die Art der Messung
+    @BenchmarkMode(Mode.Throughput)
+    // Java optimiert Code während der Laufzeit, deshalb wird er zuerst "warm" gemacht
+    // So hat Java genug Zeit, um den Code zu optimieren, bevor die Messung beginnt
+    @Warmup(iterations = 5, time = 3)
+    // Die eigentliche Messung
+    @Measurement(iterations = 5, time = 3)
+    // Der gesamte Benchmark (Warmup + Measurement) wird mehrmals ausgeführt
+    // um statistische Schwankungen der Java Laufzeitoptimierung zu minimieren
+    @Fork(value = 3)
+    public void tick() {
+        this.world.tick();
+    }
+}
+`}
+    />
 
     <h2>Contiguous Memory</h2>
     <LnCache />
@@ -101,36 +148,63 @@ dependencies {
         <Link href="https://youtu.be/RON2FmNrR58">Karnaugh map (KV-Diagramm)</Link>.
     </p>
     <p>
+        Es kann auch lohnend seit mehrere Daten in einer Variable zu speichern. Wenn du beispielsweise zwei kleine
+        Zahlen oder eine kleine Zahl und ein Boolean speichern willst, kann beides in ein Byte passen.
+        <br />
+        (Damit es bei negativen Zahlen keine Probleme gibt, <code>char</code> verwenden, nicht <code>byte</code>)
+    </p>
+    <Code
+        code={`
+public class Main {
+    public static void main(String[] args) {
+        // speichern der Zahl 5 + einem Boolean in einem Byte
+
+        // erstes Bit ist für den boolean
+        // 2-8 sind für die Zahl
+        char data = 0;
+
+        // Zahl 5 speichern
+        data |= 5 << 1;
+
+        // Boolean speichern
+        data |= 1; // true
+
+        // Ausgabe
+        var zahl = data >> 1;
+        var bool = (data & 0b01) == 0b01;
+
+        System.out.printf("Zahl: %d, Boolean: %b\\n", zahl, bool);
+        // Ausgabe: "Zahl: 5, Boolean: true"
+    }
+}
+        `}
+    />
+    <p>
         Bei diesen Techniken arbeitet man meist mit einzelnen Bits. Jedoch gibt es in keiner Programmiersprache einen
         Datentyp für einzelne Bits. Das liegt daran, dass die CPU nur auf Byte-Ebene arbeitet. Ein Bit hat keine Adresse
         (Pointer) im Arbeitsspeicher.
     </p>
     <p>
-        Bei kleinen Datenmengen kann man primitive Ganzzahl-Typen (in Java <code>int</code>(32 Bit) und <code>long</code
-        >(64 Bit)) verwenden.
+        Bei kleinen Datenmengen kann man primitive Ganzzahl-Typen (in Java <code>char</code>(8 Bit), <code>int</code>(32
+        Bit) und <code>long</code>(64 Bit)) verwenden.
     </p>
     <Code
         code={`
 public class Main {
     public static void main(String[] args) {
         int bits = 0; // 8 Byte 32 bit
-        System.out.println(Integer.toBinaryString(bits));
 
         // setze das 3. Bit von rechts auf 1
         bits |= 0b100;
-        System.out.println(Integer.toBinaryString(bits));
 
         // setze das 4. Bit von rechts auf 1
         bits |= 0b1 << 3; // 0b1 bitshift um 3 Stellen nach links -> 0b1000
-        System.out.println(Integer.toBinaryString(bits));
 
         // invertiere alle Bits
         bits = ~bits;
-        System.out.println(Integer.toBinaryString(bits));
 
         // Schiebe alle Bits um 2 Stellen nach rechts
         bits >>= 2;
-        System.out.println(Integer.toBinaryString(bits));
     }
 }
 `}
@@ -146,35 +220,23 @@ import java.util.BitSet;
 public class Main {
     public static void main(String[] args) {
         BitSet bits = new BitSet(32); // 32 bit
-        printBitSet(bits);
 
         // setze das 3. Bit von rechts auf 1
         bits.set(2); // BitSet ist nullbasiert, daher Index 2
-        printBitSet(bits);
 
         // setze das 4. Bit von rechts auf 1
         bits.set(3);
-        printBitSet(bits);
 
         // invertiere alle Bits
         bits.flip(0, bits.length());
-        printBitSet(bits);
 
         // Schiebe alle Bits um 2 Stellen nach rechts
         bits = bits.get(2, bits.length());
-        printBitSet(bits);
-    }
-
-    private static void printBitSet(BitSet bitSet) {
-        StringBuilder binaryString = new StringBuilder();
-        for (int i = 0; i < 32; i++) {
-            binaryString.append(bitSet.get(i) ? "1" : "0");
-        }
-        System.out.println(binaryString.reverse());
     }
 }
     `}
     />
+
     <h2>Syscalls</h2>
     <p>
         Syscalls sind Anfragen an das Betriebssystem, um bestimmte Aufgaben zu erledigen, die das Programm selbst nicht
@@ -190,5 +252,16 @@ public class Main {
     </p>
     <p>
         Syscalls sind langsam. Deshalb ist es wichtig, sie zu minimieren, um die Leistung des Programms zu verbessern.
+    </p>
+
+    <h2>SIMD</h2>
+    <p>
+        SIMD steht für Single Instruction, Multiple Data. Es ist eine Technik, die es der CPU ermöglicht, dieselbe
+        Operation auf mehreren Daten gleichzeitig auszuführen. Das ist besonders nützlich, wenn du viele Daten hast, die
+        alle die gleiche Operation benötigen. Das ist beispielsweise bei der Verarbeitung von Bild und Ton der Fall.
+    </p>
+    <p>Java ist nicht für gute SIMD-Unterstützung bekannt, daher bleibt es hier bei der Erwähnung, dass es das gibt.</p>
+    <p>
+        Da es sich um eine CPU spezifische Optimierung handelt, sind hier Sprachen wie C, Rust oder Go besser geeignet.
     </p>
 </Layout>

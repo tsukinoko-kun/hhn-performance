@@ -5,7 +5,7 @@ import { catppuccin } from "./PrismCatppuccinTheme"
 export function Code(props: { code: string; language?: string | undefined }): ReactNode {
     return (
         <SyntaxHighlighter language={props.language || "java"} style={catppuccin()} showLineNumbers>
-            {props.code}
+            {props.code.trim()}
         </SyntaxHighlighter>
     )
 }
