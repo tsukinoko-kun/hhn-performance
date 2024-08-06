@@ -7,12 +7,13 @@ import Code from "./Code.astro"
 
 <h3>Stack</h3>
 <p>
-    Der Stack ist ein Speicherbereich, in dem Funktionen und lokale (primitive) Variablen gespeichert werden.<br />
+    Der Stack ist ein Speicherbereich, in dem lokale (primitive) Variablen sowie Rücksprungadressen (wo nach
+    Funktionsende das Programm weiterlaufen soll) gespeichert werden.<br />
     Neuer Speicher kann ausschließlich am Ende des Stacks allokiert werden. Nur Speicher ganz am Ende des Stacks kann freigegeben
     werden. Diese Einfachheit macht den Stack einerseits schnell, andererseits ist er dadurch auch stark eingeschränkt.<br
     />
-    Inerhalb einer Funktion kann Speicher im Stack allokiert werden. Dieser Speicher wird automatisch freigegeben, wenn die
-    Funktion beendet wird.
+    Innerhalb einer Funktion kann Speicher im Stack allokiert werden. Dieser Speicher wird automatisch freigegeben, wenn
+    die Funktion beendet wird.
 </p>
 
 <Code

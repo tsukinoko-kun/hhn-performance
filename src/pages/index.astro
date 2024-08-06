@@ -82,7 +82,7 @@ dependencies {
         <br />
         <b>Error</b> ist die Standardabweichung. Ein niedriger Wert ist besser, er wird aber nie 0 sein. Eine hohe Standardabweichung
         bedeutet, dass die Messungen sehr unterschiedlich sind, das kann verschiedene Gründe haben, beispielsweise ein zu
-        kleiner oder zufälliger Input. Ein anzustrebender Wert ist ~1% des Score.
+        kleiner oder zufälliger Input. Ein anzustrebender Wert ist ~1% des Scores.
     </p>
     <p>
         Führe erst einen Benchmark aus, verändere dann so wenig wie möglich und teste erneut. So kannst du
@@ -90,7 +90,7 @@ dependencies {
     </p>
     <p>
         Die meisten Benchmarking tools sind einstellbar. Also die Anzahl der Durchläufe. Hier gilt es die Durchläufe so
-        lange zu erhöhen, biss die Messergebnisse Konsistent werden. Wer geduldig ist, kann auch die JVM Standardwerte
+        lange zu erhöhen, biss die Messergebnisse konsistent werden. Wer geduldig ist, kann auch die JVM Standardwerte
         verwenden.
     </p>
     <Code
@@ -148,7 +148,7 @@ public class RulesBenchmark {
         <Link href="https://youtu.be/RON2FmNrR58">Karnaugh map (KV-Diagramm)</Link>.
     </p>
     <p>
-        Es kann auch lohnend seit mehrere Daten in einer Variable zu speichern. Wenn du beispielsweise zwei kleine
+        Es kann auch lohnend sein mehrere Daten in einer Variable zu speichern. Wenn du beispielsweise zwei kleine
         Zahlen oder eine kleine Zahl und ein Boolean speichern willst, kann beides in ein Byte passen.
         <br />
         (Damit es bei negativen Zahlen keine Probleme gibt, <code>char</code> verwenden, nicht <code>byte</code>)
@@ -253,6 +253,34 @@ public class Main {
     <p>
         Syscalls sind langsam. Deshalb ist es wichtig, sie zu minimieren, um die Leistung des Programms zu verbessern.
     </p>
+    <p>Das bedeutet:</p>
+    <ul>
+        <li>
+            Häufig benötigte Dateiinhalte (von der Festplatte) im Arbeitsspeicher halten, anstatt sie jedes Mal neu zu
+            lesen.
+        </li>
+        <li>
+            Ressourcen wie Sockets (Netzwerkverbindungen) und Threads wiederverwenden, anstatt sie jedes Mal neu zu
+            erstellen. Dafür gibt es sogenannte Pools, die eine begrenzte Anzahl von Ressourcen verwalten.
+        </li>
+        <li>
+            Das erstellen und löschen von Objekten im Heap vermeiden. Du kannst Klassen eine Methode <code>reset()</code
+            >
+            hinzufügen, die das Objekt in den Ursprungszustand zurücksetzt, dann kannst du es wiederverwenden.
+        </li>
+        <li>
+            Bedenke, dass die <code>+</code> Operation bei Strings einen neuen String erstellt. Wenn du mehr als drei <code
+                >+</code
+            > Operationen verwenden würdest (das ist nur ein grober Richtwert), lohnt es sich <Link
+                href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/lang/StringBuilder.html"
+                ><code>StringBuilder</code></Link
+            > zu verwenden. Erst, wenn du am Ende <Link
+                href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/lang/StringBuilder.html#toString()"
+                ><code>StringBuilder::toString()</code></Link
+            >
+            aufrufst, wird ein großer neuer String erstellt.
+        </li>
+    </ul>
 
     <h2>SIMD</h2>
     <p>
@@ -260,8 +288,9 @@ public class Main {
         Operation auf mehreren Daten gleichzeitig auszuführen. Das ist besonders nützlich, wenn du viele Daten hast, die
         alle die gleiche Operation benötigen. Das ist beispielsweise bei der Verarbeitung von Bild und Ton der Fall.
     </p>
-    <p>Java ist nicht für gute SIMD-Unterstützung bekannt, daher bleibt es hier bei der Erwähnung, dass es das gibt.</p>
     <p>
-        Da es sich um eine CPU spezifische Optimierung handelt, sind hier Sprachen wie C, Rust oder Go besser geeignet.
+        Java ist nicht für gute SIMD-Unterstützung bekannt, daher bleibt es hier bei der Erwähnung, dass es das gibt.
+        <br />
+        Da es sich um eine CPU spezifische Optimierung handelt, sind Sprachen wie C, Rust oder Go besser geeignet.
     </p>
 </Layout>
