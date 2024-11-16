@@ -23,7 +23,7 @@ import JmhSample from "../components/JmhSample.astro"
         des Programms verbessert werden müssen, um die Gesamtleistung zu steigern.
     </p>
     <h3>IntelliJ</h3>
-    <video src={pub("/video/intellij-profiler.webm")} muted controls class="mx-auto aspect-auto w-full max-w-3xl"
+    <video src={pub("/video/intellij-profiler.webm")} muted controls class="mx-auto w-full max-w-3xl aspect-auto"
     ></video>
     <h3>Flame Graph</h3>
     <p>
@@ -74,7 +74,7 @@ dependencies {
 }
         `}
     />
-    <p>Ausgeführt wird mit <code>./gradlew :jmh</code></p>
+    <p>Ausgeführt wird mit <code>./gradlew jmh</code></p>
     <JmhSample />
     <p>
         Der <b>Score</b> ist die Anzahl der Operationen (Funktionsdurchläufe) in einer bestimmten Zeit. Ein höherer Score
