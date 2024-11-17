@@ -291,8 +291,93 @@ public class Main {
         alle die gleiche Operation benötigen. Das ist beispielsweise bei der Verarbeitung von Bild und Ton der Fall.
     </p>
     <p>
-        Java ist nicht für gute SIMD-Unterstützung bekannt, daher bleibt es hier bei der Erwähnung, dass es das gibt.
-        <br />
-        Da es sich um eine CPU spezifische Optimierung handelt, sind Sprachen wie C, Rust oder Go besser geeignet.
+        Hier geht es nicht um Multithreading, sondern um die parallele Verarbeitung von Daten in einem CPU Cycle. Das
+        bedeutet, dass es keine Race Conditions gibt.
     </p>
+    <p>
+        Java unterstützt SIMD über die Vector API. Dieses ist noch relativ neu und befindet sich in der Entwicklung. Es
+        werden auch noch nicht alle CPUs unterstützt.
+    </p>
+    <p>
+        <br />
+        <Link href="https://openjdk.org/jeps/489">JEP 489: Vector API (Incubator)</Link>
+        <br />
+        <Link href="https://youtu.be/PnVw1uFxSyw"
+            >YouTube: Vector API for Java (Talk by Paul Sandoz and Kishor Kharbas)</Link
+        >
+    </p>
+    <p>
+        Zuerst musst du dich für einen Typ entscheiden. Die Vector API unterstützt: <code>Byte</code>, <code>Short</code
+        >, <code>Int</code>, <code>Long</code>, <code>Float</code> und <code>Double</code>.
+    </p>
+    <p>
+        Es werden mehrere Daten in einem Vector gespeichert, das sind die Werte, die gleichzeitig verarbeitet werden
+        sollen. Die Anzahl der Daten nennt man Shape und hängt von der CPU ab. Man kann zwar einen Vector einer
+        bestimmten Größe erstellen, dann kann es aber passieren, dass die CPU diese Größe nicht unterstützt. Deshalb
+        sollte man die Größe des Vectors zur Laufzeit automatisch bestimmen. <br />Du wählst eine Species, das ist die
+        Art des Vectors, also die Größe (Shape) und der Typ.
+    </p>
+    <Code
+        code={`
+package org.example;
+
+import jdk.incubator.vector.DoubleVector;
+import jdk.incubator.vector.VectorSpecies;
+
+public class App {
+  private static final VectorSpecies<Double> SPECIES = DoubleVector.SPECIES_PREFERRED;
+}
+`}
+    />
+    <p>
+        Meistens müssen mehr Daten verarbeitet werden als in einen Vector passen. Dann wird der Vector in mehrere Teile
+        aufgeteilt. Das wie aufgeteilt wird, sagt die Species mit der Methode <code>loopBound()</code>, die als Argument
+        die Größe der zu verarbeitenden Daten annimmt.
+    </p>
+    <Code
+        code={`
+package org.example;
+
+import jdk.incubator.vector.DoubleVector;
+import jdk.incubator.vector.VectorSpecies;
+
+public class App {
+  private static final VectorSpecies<Double> SPECIES = DoubleVector.SPECIES_PREFERRED;
+
+  public static double sumWithSIMD(double[] numbers) {
+    int i = 0;
+    int upperBound = SPECIES.loopBound(numbers.length);
+
+    // ...
+
+    for (; i < upperBound; i += SPECIES.length()) {
+      // SIMD loop
+      DoubleVector vector = DoubleVector.fromArray(SPECIES, numbers, i);
+      // vector ist ein Vector der angegebenen Species
+      // Mit dieser Schleife bekommst du einen Teil des Arrays numbers nach dem anderen
+    }
+
+    // ...
+  }
+}
+`}
+    />
+    <p>Mit einer Species kann ein neuer Vector erstellt werden:</p>
+    <Code code={`DoubleVector sumVector = DoubleVector.zero(SPECIES);`} />
+    <p>Mehrere Vektoren können addiert werden:</p>
+    <Code code={`sumVector = sumVector.add(otherVector);`} />
+    <p>Und es kann eine Summe aus einem Vector gebildet werden:</p>
+    <Code code={`double sum = sumVector.reduceLanes(VectorOperators.ADD);`} />
+    <p>
+        Da unbekannt ist, welche Shape die CPU unterstützt, muss darauf geachtet werden, dass alle verbleibende
+        Elemente, die keinen eigenen Vector mehr bilden können, separat verarbeitet werden.<br />
+        Zähle dazu einfach von <code>i</code> weiter bis zum Ende deiner Daten.
+    </p>
+    <Code
+        code={`
+for (; i < numbers.length; i++) {
+  // numbers[i];
+}
+    `}
+    />
 </Layout>
